@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContractStdlib</title>
+  <style>
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; min-height: 100vh; background: #0d1117; color: #c9d1d9; }
+      .sidebar { width: 280px; background: #161b22; border-right: 1px solid #30363d; padding: 20px; position: fixed; height: 100vh; overflow-y: auto; }
+      .sidebar h2 { font-size: 16px; color: #58a6ff; margin-bottom: 4px; }
+      .version { font-size: 12px; color: #8b949e; }
+      .sidebar input { width: 100%; padding: 8px; margin: 12px 0; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; font-size: 13px; }
+      .sidebar ul { list-style: none; }
+      .sidebar li a { display: block; padding: 4px 8px; color: #c9d1d9; text-decoration: none; border-radius: 4px; font-size: 13px; }
+      .sidebar li a:hover { background: #21262d; }
+      .sidebar li a[data-kind="contract"]::before { content: 'C '; color: #f0883e; font-weight: bold; }
+      .sidebar li a[data-kind="struct"]::before { content: 'S '; color: #a371f7; font-weight: bold; }
+      .sidebar li a[data-kind="enum"]::before { content: 'E '; color: #3fb950; font-weight: bold; }
+      .sidebar li a[data-kind="function"]::before { content: 'f '; color: #58a6ff; font-weight: bold; }
+      .sidebar li a[data-kind="constructor"]::before { content: 'ct '; color: #d2a8ff; font-weight: bold; }
+      .sidebar li a[data-kind="field"]::before { content: 'F '; color: #8b949e; font-weight: bold; }
+      .nav-section { font-size: 11px; text-transform: uppercase; color: #8b949e; padding: 8px 8px 2px; letter-spacing: 0.5px; }
+      .content { margin-left: 280px; padding: 40px; max-width: 900px; }
+      .description { color: #8b949e; margin-bottom: 24px; font-size: 15px; }
+      .decl { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #21262d; }
+      .decl-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+      .decl-name { font-size: 20px; color: #f0f6fc; }
+      .kind-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+      .kind-badge.contract { background: #f0883e22; color: #f0883e; }
+      .kind-badge.struct { background: #a371f722; color: #a371f7; }
+      .kind-badge.enum { background: #3fb95022; color: #3fb950; }
+      .kind-badge.function { background: #58a6ff22; color: #58a6ff; }
+      .kind-badge.constructor { background: #d2a8ff22; color: #d2a8ff; }
+      .kind-badge.field { background: #8b949e22; color: #8b949e; }
+      .type-chip { font-family: 'SF Mono', Consolas, monospace; font-size: 12px; font-weight: 600; color: #3fb950; background: #3fb95022; padding: 2px 8px; border-radius: 12px; }
+      .signature { background: #161b22; padding: 12px 16px; border-radius: 6px; border: 1px solid #30363d; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #e6edf3; overflow-x: auto; margin: 8px 0; }
+      .sig-mod { color: #f0883e; }
+      .sig-kw { color: #ff7b72; }
+      .sig-name { color: #79c0ff; font-weight: 600; }
+      .sig-pname { color: #ffa657; }
+      .sig-type { color: #a5d6ff; }
+      .sig-arrow { color: #8b949e; }
+      .summary { margin: 8px 0; line-height: 1.6; }
+      .params h4, .returns h4, .remarks h4, .example h4 { font-size: 13px; color: #8b949e; margin: 12px 0 6px; }
+      .param-list { display: grid; grid-template-columns: minmax(90px, max-content) minmax(110px, max-content) 1fr; gap: 5px 20px; align-items: baseline; }
+      .param-name { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #ffa657; }
+      .param-type { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #a5d6ff; }
+      .param-desc { font-size: 14px; }
+      .returns p { font-size: 14px; line-height: 1.6; }
+      .ret-type { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #3fb950; background: #161b22; border: 1px solid #30363d; padding: 1px 6px; border-radius: 4px; }
+      .remarks p { font-size: 14px; line-height: 1.6; }
+      .example pre { background: #161b22; padding: 12px 16px; border-radius: 6px; border: 1px solid #30363d; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; overflow-x: auto; }
+      .namespace { color: #58a6ff; margin: 32px 0 16px; font-size: 18px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
+      .members { margin-left: 20px; padding-left: 16px; border-left: 2px solid #21262d; }
+      .hidden { display: none; }
+      </style>
+</head>
+<body>
+<nav class="sidebar">
+  <h2>ContractStdlib</h2>
+  <span class="version">v0.1.0</span>
+  <input type="text" id="search" placeholder="Search..." autocomplete="off">
+  <ul id="nav-list">
+    <li class="nav-section">ObjektRT.Std</li>
+      <li><a href="#-abs" data-kind="function">abs</a></li>
+      <li><a href="#-add" data-kind="function">add</a></li>
+      <li><a href="#-inc" data-kind="function">inc</a></li>
+      <li><a href="#-mul" data-kind="function">mul</a></li>
+      <li><a href="#-negate" data-kind="function">negate</a></li>
+  </ul>
+</nav>
+<main class="content">
+  <p class="description">the offficial ObjektRT standard library</p>
+  <h2 class="namespace">ObjektRT.Std</h2>
+  <div class="decl" id="-abs" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">abs</h3>
+    </div>
+    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">abs</span>(<span class="sig-param"><span class="sig-pname">x</span>: <span class="sig-type">int</span></span>)</pre>
+    <p class="summary">returns the absolute value.</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <div class="param-list">
+        <div class="param-row">
+          <span class="param-name">x</span>
+          <span class="param-type">int</span>
+          <span class="param-desc"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="decl" id="-add" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">add</h3>
+      <span class="type-chip">-&gt;&nbsp;a + b</span>
+    </div>
+    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">add</span>(<span class="sig-param"><span class="sig-pname">a</span>: <span class="sig-type">int</span></span>, <span class="sig-param"><span class="sig-pname">b</span>: <span class="sig-type">int</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">a + b</span></pre>
+    <p class="summary">increments numbers</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <div class="param-list">
+        <div class="param-row">
+          <span class="param-name">a</span>
+          <span class="param-type">int</span>
+          <span class="param-desc">The first addend.</span>
+        </div>
+        <div class="param-row">
+          <span class="param-name">b</span>
+          <span class="param-type">int</span>
+          <span class="param-desc">The seccond addend.</span>
+        </div>
+      </div>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">a + b</code> the sum of a and b</p>
+    </div>
+  </div>
+  <div class="decl" id="-inc" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">inc</h3>
+      <span class="type-chip">-&gt;&nbsp;x + 1</span>
+    </div>
+    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">inc</span>(<span class="sig-param"><span class="sig-pname">x</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">x + 1</span></pre>
+    <p class="summary">increments a value</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <div class="param-list">
+        <div class="param-row">
+          <span class="param-name">x</span>
+          <span class="param-type"></span>
+          <span class="param-desc"></span>
+        </div>
+      </div>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">x + 1</code> </p>
+    </div>
+  </div>
+  <div class="decl" id="-mul" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">mul</h3>
+      <span class="type-chip">-&gt;&nbsp;a * b</span>
+    </div>
+    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">mul</span>(<span class="sig-param"><span class="sig-pname">a</span>: <span class="sig-type">int</span></span>, <span class="sig-param"><span class="sig-pname">b</span>: <span class="sig-type">int</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">a * b</span></pre>
+    <p class="summary">multiplies 2 numbers.</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <div class="param-list">
+        <div class="param-row">
+          <span class="param-name">a</span>
+          <span class="param-type">int</span>
+          <span class="param-desc"></span>
+        </div>
+        <div class="param-row">
+          <span class="param-name">b</span>
+          <span class="param-type">int</span>
+          <span class="param-desc"></span>
+        </div>
+      </div>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">a * b</code> </p>
+    </div>
+  </div>
+  <div class="decl" id="-negate" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">negate</h3>
+      <span class="type-chip">-&gt;&nbsp;int = fn (x: int) -&gt; 0 - x</span>
+    </div>
+    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">negate</span>: <span class="sig-type">int = fn (x: int) -&gt; 0 - x</span></pre>
+    <p class="summary">negates the input.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int = fn (x: int) -&gt; 0 - x</code> </p>
+    </div>
+  </div>
+</main>
+<script>
+
+      const search = document.getElementById('search');
+      const navList = document.getElementById('nav-list');
+      const decls = document.querySelectorAll('.decl');
+      search.addEventListener('input', () => {
+        const q = search.value.toLowerCase();
+        navList.querySelectorAll('li a').forEach(a => {
+          const match = a.textContent.toLowerCase().includes(q);
+          a.parentElement.style.display = match || !q ? '' : 'none';
+        });
+        decls.forEach(d => {
+          const name = d.querySelector('.decl-name')?.textContent.toLowerCase() || '';
+          const sig = d.querySelector('.signature')?.textContent.toLowerCase() || '';
+          d.classList.toggle('hidden', q && !name.includes(q) && !sig.includes(q));
+        });
+      });
+    
+</script>
+</body>
+</html>

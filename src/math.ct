@@ -1,0 +1,30 @@
+namespace ObjektRT.Std;
+Contract Math {
+    /// <summary> increments numbers </summary>
+    /// <param name="a">The first addend.</param>
+    /// <param name="b">The seccond addend.</param>
+    /// <returns> the sum of a and b </returns>
+    let add = fn (a: int, b: int) -> a + b;
+    
+    /// multiplies 2 numbers.     
+    let mul = fun (a: int, b: int) -> a * b;
+    
+    /// returns the absolute value.       
+    let abs = fn (x: int) -> {                   
+        if (x < 0) { return 0 - x; }
+        return x;
+    };
+
+
+    let Main = fn () -> {
+        
+    };
+
+    /// negates the input.
+    let negate: int = fn (x: int) -> 0 - x; 
+    
+    /// <summary> increments a value </summary>
+    let inc = fn (x) -> x + 1;    
+            
+    
+}

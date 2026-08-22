@@ -1,0 +1,72 @@
+module Math version 1.0.0
+
+class ObjektRT.Std.Math {
+    static method add(a: int32, b: int32) -> int32 {
+        // #line 3:38 ""
+        ldarg 0
+        // #line 3:42 ""
+        ldarg 1
+        // #line 3:42 ""
+        add
+        // #line 3:42 ""
+        ret
+    }
+
+    static method mul(a: int32, b: int32) -> int32 {
+        // #line 4:39 "/// ObjektRT Stdlib"
+        ldarg 0
+        // #line 4:43 "/// ObjektRT Stdlib"
+        ldarg 1
+        // #line 4:43 "/// ObjektRT Stdlib"
+        mul
+        // #line 4:43 "/// ObjektRT Stdlib"
+        ret
+    }
+
+    static method abs(x: int32) -> int32 {
+        // #line 6:13 "/// This is the main entrypoint for the standard library"
+        ldarg 0
+        // #line 6:17 "/// This is the main entrypoint for the standard library"
+        ldc.i4 0
+        // #line 6:17 "/// This is the main entrypoint for the standard library"
+        clt
+        // #line 6:17 "/// This is the main entrypoint for the standard library"
+        if (stack) {
+            // #line 6:29 "/// This is the main entrypoint for the standard library"
+            ldc.i4 0
+            // #line 6:33 "/// This is the main entrypoint for the standard library"
+            ldarg 0
+            // #line 6:33 "/// This is the main entrypoint for the standard library"
+            sub
+            // #line 6:33 "/// This is the main entrypoint for the standard library"
+            ret
+        }
+        // #line 7:16 "///"
+        ldarg 0
+        // #line 7:16 "///"
+        ret
+    }
+
+    static method negate(x: int32) -> int32 {
+        // #line 9:38 "/// is'nt as fleshed out as it should be."
+        ldc.i4 0
+        // #line 9:42 "/// is'nt as fleshed out as it should be."
+        ldarg 0
+        // #line 9:42 "/// is'nt as fleshed out as it should be."
+        sub
+        // #line 9:42 "/// is'nt as fleshed out as it should be."
+        ret
+    }
+
+    static method inc(x: int32) -> int32 {
+        // #line 10:25 "///"
+        ldarg 0
+        // #line 10:29 "///"
+        ldc.i4 1
+        // #line 10:29 "///"
+        add
+        // #line 10:29 "///"
+        ret
+    }
+}
+

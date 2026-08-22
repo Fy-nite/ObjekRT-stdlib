@@ -1,0 +1,60 @@
+namespace thing;
+// Type-safe generic list contract.
+// Materialized at runtime: ValueList<int>, ValueList<Value>, etc.
+Contract List<T> {
+    private items: T[];
+    private count: int;
+
+    constructor() {
+        this.items = new T[64];
+        this.count = 0;
+    }
+
+    fn Get(index: int) -> T {
+        return this.items[index];
+    }
+
+    fn Set(index: int, value: T) {
+        this.items[index] = value;
+    }
+
+    fn Add(value: T) {
+        if (this.count == this.items.Count) {
+            var newlen: int = count * 2;
+            var newarr: T[] = new T[newlen];
+            Array.Copy(items,0,newarr,0,this.count);
+            this.items = newarr;
+        }
+        this.items[this.count] = value;
+        this.count += 1;
+    }
+
+    fn Count() -> int {
+        return this.count;
+    }
+
+    fn RemoveAt(index: int) {
+        for (var i = index; i < this.count - 1; i = i + 1) {
+            this.items[i] = this.items[i + 1];
+        }
+        this.count = this.count - 1;
+    }
+    fn Last() -> T {
+        return Get(items.Count - 1);
+    }
+    
+    // fn Sort(compare: (T, T) -> int) { 
+
+    // }
+
+    fn AddRange(items: T[]) {
+         if (this.count == this.items.Count) {
+            var newlen: int = count * 2;
+            var newarr: T[] = new T[newlen];
+            Array.Copy(items,0,newarr,0,this.count);
+            this.items = newarr;
+        }
+        
+        this.count += 1;
+    }
+}

@@ -1,0 +1,17 @@
+namespace ObjektRT.Stdlib;
+
+Contract KV<K,V>
+{
+
+}
+Contract test
+{
+   add: <Delegate(int, int) -> int>;
+   constructor()
+   {
+    add = fun (a: int, b: int) -> {
+        return a + b;
+    };
+   }
+
+}
