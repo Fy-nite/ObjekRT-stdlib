@@ -1,0 +1,16 @@
+{
+  "Name": "Debugging",
+  "Type": "lib",
+  "Sources": ["*.ct"],
+  "Namespace": "ObjektRT.Std",
+  "Output": "bin",
+  "Version": "0.1.0",
+  "Author": "charlie-san, Finite",
+  "Description": "the offficial ObjektRT standard library",
+  "License": "MIT",
+  "Tags": [
+    "library",
+    "ObjektRT"
+  ],
+  "Dependencies": null
+}

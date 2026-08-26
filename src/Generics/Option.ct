@@ -1,4 +1,4 @@
-
+namespace ObjektRT.std;
 type option<T>
 {
     Value(v: T)

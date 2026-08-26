@@ -526,8 +526,8 @@ body {
   <input type="text" id="search" placeholder="Search declarations..." autocomplete="off">
   <ul id="nav-list">
     <li class="nav-section">Generics</li>
-      <li><a href="#-a" data-kind="contract"><span class="kind-dot"></span>a</a></li>
       <li><a href="#-HashMap" data-kind="contract"><span class="kind-dot"></span>HashMap</a></li>
+    <li class="nav-section">ObjektRT.std</li>
       <li><a href="#-option" data-kind="type"><span class="kind-dot"></span>option</a></li>
     <li class="nav-section">ObjektRT.Std</li>
       <li><a href="#-Math" data-kind="contract"><span class="kind-dot"></span>Math</a></li>
@@ -544,15 +544,6 @@ body {
   </header>
   <section class="ns-section">
     <h2 class="namespace">Generics</h2>
-  <article class="decl" id="-a" data-kind="contract">
-    <div class="decl-header">
-      <span class="kind-badge contract">contract</span>
-      <h3 class="decl-name">a</h3>
-      <span class="modifiers">
-<span class="mod">public</span>      </span>
-    </div>
-    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">a</span></code></pre>
-  </article>
   <article class="decl" id="-HashMap" data-kind="contract">
     <div class="decl-header">
       <span class="kind-badge contract">contract</span>
@@ -579,6 +570,9 @@ body {
   </article>
     </div>
   </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">ObjektRT.std</h2>
   <article class="decl" id="-option" data-kind="type">
     <div class="decl-header">
       <span class="kind-badge type">type</span>
@@ -606,7 +600,7 @@ body {
     </div>
     <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Math</span></code></pre>
     <div class="members">
-      <h4>Members <span class="member-count">(3)</span></h4>
+      <h4>Members <span class="member-count">(5)</span></h4>
   <article class="decl" id="-abs" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
@@ -656,6 +650,28 @@ body {
       </table>
     </div>
   </article>
+  <article class="decl" id="-inc" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">inc</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">inc</span>(<span class="sig-pname">x</span>: <span class="sig-type">int</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>x</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
   <article class="decl" id="-mul" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
@@ -681,6 +697,32 @@ body {
           </tr>
         </tbody>
       </table>
+    </div>
+  </article>
+  <article class="decl" id="-negate" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">negate</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">negate</span>(<span class="sig-pname">x</span>: <span class="sig-type">int</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>x</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
     </div>
   </article>
     </div>
@@ -716,7 +758,47 @@ body {
     </div>
     <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">List</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
     <div class="members">
-      <h4>Members <span class="member-count">(6)</span></h4>
+      <h4>Members <span class="member-count">(11)</span></h4>
+  <article class="decl" id="-Add" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Add</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Add</span>(<span class="sig-pname">value</span>: <span class="sig-type">T</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>value</code></td>
+            <td class="param-type"><code>T</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+  <article class="decl" id="-AddRange" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">AddRange</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">AddRange</span>(<span class="sig-pname">items</span>: <span class="sig-type">T[]</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>items</code></td>
+            <td class="param-type"><code>T[]</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
   <article class="decl" id="-constructor" data-kind="constructor">
     <div class="decl-header">
       <span class="kind-badge constructor">constructor</span>
@@ -732,6 +814,17 @@ body {
     <pre class="signature"><code><span class="sig-kw">var</span> <span class="sig-name">count</span>: <span class="sig-type">int</span></code></pre>
     <div class="returns">
       <h4>Type</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Count" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Count</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Count</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <div class="returns">
+      <h4>Returns</h4>
       <p><code class="ret-type">int</code> </p>
     </div>
   </article>
@@ -770,12 +863,43 @@ body {
       <p><code class="ret-type">T[]</code> </p>
     </div>
   </article>
+  <article class="decl" id="-Last" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Last</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Last</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">T</span></code></pre>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">T</code> </p>
+    </div>
+  </article>
   <article class="decl" id="-Print" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
       <h3 class="decl-name">Print</h3>
     </div>
     <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Print</span>()</code></pre>
+  </article>
+  <article class="decl" id="-RemoveAt" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">RemoveAt</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">RemoveAt</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </article>
   <article class="decl" id="-Set" data-kind="function">
     <div class="decl-header">

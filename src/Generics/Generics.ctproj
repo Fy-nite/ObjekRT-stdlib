@@ -1,13 +1,7 @@
 {
-  "Name": "ContractStdlib",
+  "Name": "ObjektRT.std.Generics",
   "Type": "lib",
-  "Projects": [
-    "src/Debugging/Debugging.ctproj",
-    "src/Generics/Generics.ctproj",
-    "src/Math/BasicOps.ctproj",
-    "src/Math/Vectorization/VectorMath.ctproj",
-    "src/ObjektRT.Core/ObjektRT.Core.ctproj"
-  ],
+  "Sources": ["*.ct"],
   "Namespace": "ObjektRT.std",
   "Output": "bin",
   "Version": "0.1.0",
