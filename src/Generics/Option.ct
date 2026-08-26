@@ -1,0 +1,6 @@
+
+type option<T>
+{
+    Value(v: T)
+    | None()
+}

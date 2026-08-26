@@ -6,203 +6,880 @@
   <title>ContractStdlib</title>
   <style>
 
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; min-height: 100vh; background: #0d1117; color: #c9d1d9; }
-      .sidebar { width: 280px; background: #161b22; border-right: 1px solid #30363d; padding: 20px; position: fixed; height: 100vh; overflow-y: auto; }
-      .sidebar h2 { font-size: 16px; color: #58a6ff; margin-bottom: 4px; }
-      .version { font-size: 12px; color: #8b949e; }
-      .sidebar input { width: 100%; padding: 8px; margin: 12px 0; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #c9d1d9; font-size: 13px; }
-      .sidebar ul { list-style: none; }
-      .sidebar li a { display: block; padding: 4px 8px; color: #c9d1d9; text-decoration: none; border-radius: 4px; font-size: 13px; }
-      .sidebar li a:hover { background: #21262d; }
-      .sidebar li a[data-kind="contract"]::before { content: 'C '; color: #f0883e; font-weight: bold; }
-      .sidebar li a[data-kind="struct"]::before { content: 'S '; color: #a371f7; font-weight: bold; }
-      .sidebar li a[data-kind="enum"]::before { content: 'E '; color: #3fb950; font-weight: bold; }
-      .sidebar li a[data-kind="function"]::before { content: 'f '; color: #58a6ff; font-weight: bold; }
-      .sidebar li a[data-kind="constructor"]::before { content: 'ct '; color: #d2a8ff; font-weight: bold; }
-      .sidebar li a[data-kind="field"]::before { content: 'F '; color: #8b949e; font-weight: bold; }
-      .nav-section { font-size: 11px; text-transform: uppercase; color: #8b949e; padding: 8px 8px 2px; letter-spacing: 0.5px; }
-      .content { margin-left: 280px; padding: 40px; max-width: 900px; }
-      .description { color: #8b949e; margin-bottom: 24px; font-size: 15px; }
-      .decl { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #21262d; }
-      .decl-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
-      .decl-name { font-size: 20px; color: #f0f6fc; }
-      .kind-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 600; text-transform: uppercase; }
-      .kind-badge.contract { background: #f0883e22; color: #f0883e; }
-      .kind-badge.struct { background: #a371f722; color: #a371f7; }
-      .kind-badge.enum { background: #3fb95022; color: #3fb950; }
-      .kind-badge.function { background: #58a6ff22; color: #58a6ff; }
-      .kind-badge.constructor { background: #d2a8ff22; color: #d2a8ff; }
-      .kind-badge.field { background: #8b949e22; color: #8b949e; }
-      .type-chip { font-family: 'SF Mono', Consolas, monospace; font-size: 12px; font-weight: 600; color: #3fb950; background: #3fb95022; padding: 2px 8px; border-radius: 12px; }
-      .signature { background: #161b22; padding: 12px 16px; border-radius: 6px; border: 1px solid #30363d; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #e6edf3; overflow-x: auto; margin: 8px 0; }
-      .sig-mod { color: #f0883e; }
-      .sig-kw { color: #ff7b72; }
-      .sig-name { color: #79c0ff; font-weight: 600; }
-      .sig-pname { color: #ffa657; }
-      .sig-type { color: #a5d6ff; }
-      .sig-arrow { color: #8b949e; }
-      .summary { margin: 8px 0; line-height: 1.6; }
-      .params h4, .returns h4, .remarks h4, .example h4 { font-size: 13px; color: #8b949e; margin: 12px 0 6px; }
-      .param-list { display: grid; grid-template-columns: minmax(90px, max-content) minmax(110px, max-content) 1fr; gap: 5px 20px; align-items: baseline; }
-      .param-name { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #ffa657; }
-      .param-type { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #a5d6ff; }
-      .param-desc { font-size: 14px; }
-      .returns p { font-size: 14px; line-height: 1.6; }
-      .ret-type { font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: #3fb950; background: #161b22; border: 1px solid #30363d; padding: 1px 6px; border-radius: 4px; }
-      .remarks p { font-size: 14px; line-height: 1.6; }
-      .example pre { background: #161b22; padding: 12px 16px; border-radius: 6px; border: 1px solid #30363d; font-family: 'SF Mono', Consolas, monospace; font-size: 13px; overflow-x: auto; }
-      .namespace { color: #58a6ff; margin: 32px 0 16px; font-size: 18px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
-      .members { margin-left: 20px; padding-left: 16px; border-left: 2px solid #21262d; }
-      .hidden { display: none; }
-      </style>
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #111216;
+  --bg-raised: #18191e;
+  --bg-surface: #1e2028;
+  --bg-hover: #252830;
+  --border: #2a2d37;
+  --border-subtle: #22242c;
+  --text: #d1d5de;
+  --text-dim: #888d9a;
+  --text-muted: #5c6070;
+  --accent: #6e8efb;
+  --accent-dim: #4a629c;
+  --kind-contract: #e8945a;
+  --kind-struct: #b686e8;
+  --kind-enum: #5cc98e;
+  --kind-function: #6e8efb;
+  --kind-constructor: #d4a0e8;
+  --kind-field: #888d9a;
+  --kind-extension: #e8c85a;
+  --kind-type: #5cc98e;
+  --sig-kw: #e06070;
+  --sig-name: #7cb5f5;
+  --sig-pname: #e8a860;
+  --sig-type: #80c8f0;
+  --sig-mod: #e8945a;
+  --mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', Consolas, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sidebar-w: 272px;
+  --content-pad: clamp(16px, 3vw, 48px);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+body {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  display: flex;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Mobile nav toggle ─────────────────────────────────────── */
+.nav-toggle {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1001;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--bg-raised);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.sidebar-header {
+  padding: 24px 20px 8px;
+}
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.version {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: var(--bg-surface);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+.sidebar input {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 12px 20px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.sidebar input:focus { border-color: var(--accent-dim); }
+.sidebar ul {
+  list-style: none;
+  padding: 0 8px 24px;
+  flex: 1;
+}
+.sidebar li a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  color: var(--text-dim);
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 13px;
+  transition: color 0.12s, background 0.12s;
+}
+.sidebar li a:hover { color: var(--text); background: var(--bg-hover); }
+.sidebar li a.active { color: var(--text); background: var(--bg-surface); }
+
+/* Kind indicators in nav */
+.sidebar li a .kind-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sidebar li a[data-kind="contract"] .kind-dot { background: var(--kind-contract); }
+.sidebar li a[data-kind="struct"] .kind-dot { background: var(--kind-struct); }
+.sidebar li a[data-kind="enum"] .kind-dot { background: var(--kind-enum); }
+.sidebar li a[data-kind="function"] .kind-dot { background: var(--kind-function); }
+.sidebar li a[data-kind="constructor"] .kind-dot { background: var(--kind-constructor); }
+.sidebar li a[data-kind="field"] .kind-dot { background: var(--kind-field); }
+.sidebar li a[data-kind="extension"] .kind-dot { background: var(--kind-extension); }
+.sidebar li a[data-kind="type"] .kind-dot { background: var(--kind-type); }
+
+/* Fallback for links without .kind-dot (legacy markup) */
+.sidebar li a[data-kind="contract"]::before { content: ''; }
+.sidebar li a[data-kind="struct"]::before { content: ''; }
+.sidebar li a[data-kind="enum"]::before { content: ''; }
+.sidebar li a[data-kind="function"]::before { content: ''; }
+.sidebar li a[data-kind="constructor"]::before { content: ''; }
+.sidebar li a[data-kind="field"]::before { content: ''; }
+.sidebar li a[data-kind="extension"]::before { content: ''; }
+.sidebar li a[data-kind="type"]::before { content: ''; }
+
+.nav-section {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding: 16px 12px 4px;
+}
+
+/* ── Main content ──────────────────────────────────────────── */
+.content {
+  margin-left: var(--sidebar-w);
+  padding: var(--content-pad);
+  padding-top: clamp(24px, 3vw, 48px);
+  max-width: 780px;
+  width: 100%;
+}
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.page-header h1 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.description {
+  color: var(--text-dim);
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── Declaration blocks ────────────────────────────────────── */
+.decl {
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.decl:last-child { border-bottom: none; }
+
+.decl-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.decl-name {
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-weight: 600;
+  color: #f0f2f8;
+  letter-spacing: -0.01em;
+}
+
+.kind-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+.kind-badge.contract { background: rgba(232,148,90,0.15); color: var(--kind-contract); }
+.kind-badge.struct { background: rgba(182,134,232,0.15); color: var(--kind-struct); }
+.kind-badge.enum { background: rgba(92,201,142,0.15); color: var(--kind-enum); }
+.kind-badge.function { background: rgba(110,142,251,0.15); color: var(--kind-function); }
+.kind-badge.constructor { background: rgba(212,160,232,0.15); color: var(--kind-constructor); }
+.kind-badge.field { background: rgba(136,141,154,0.15); color: var(--kind-field); }
+.kind-badge.extension { background: rgba(232,200,90,0.15); color: var(--kind-extension); }
+.kind-badge.type { background: rgba(92,201,142,0.15); color: var(--kind-type); }
+
+.modifiers {
+  display: inline-flex;
+  gap: 4px;
+}
+.mod {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--sig-mod);
+  background: rgba(232,148,90,0.1);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.type-params, .extends {
+  font-size: 13px;
+  font-family: var(--mono);
+  color: var(--sig-type);
+}
+
+/* ── Signature ─────────────────────────────────────────────── */
+.signature {
+  background: var(--bg-raised);
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #e2e5ed;
+  overflow-x: auto;
+  margin: 8px 0 12px;
+  line-height: 1.5;
+  -webkit-overflow-scrolling: touch;
+}
+.signature code { font-family: inherit; }
+.sig-mod { color: var(--sig-mod); }
+.sig-kw { color: var(--sig-kw); }
+.sig-name { color: var(--sig-name); font-weight: 600; }
+.sig-pname { color: var(--sig-pname); }
+.sig-type { color: var(--sig-type); }
+.sig-arrow { color: var(--text-muted); }
+.sig-type-params { color: var(--sig-type); }
+
+/* ── Attributes ────────────────────────────────────────────── */
+.attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.attr {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--accent);
+  background: rgba(110,142,251,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ── Summary ───────────────────────────────────────────────── */
+.summary {
+  margin: 8px 0 12px;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* ── Variants (sum types) ─────────────────────────────────── */
+.variants { margin: 12px 0; }
+.variants h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 16px 0 8px;
+}
+.variant-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.variant-chip {
+  font-size: 13px;
+  font-family: var(--font-mono);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  color: var(--text);
+}
+
+/* ── Parameters table ──────────────────────────────────────── */
+.params { margin: 12px 0; }
+.params h4, .returns h4, .remarks h4, .example h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 16px 0 8px;
+}
+.param-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.param-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: 6px 12px 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.param-table td {
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: top;
+}
+.param-table td:first-child { padding-left: 0; }
+.param-name code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--sig-pname);
+  background: none;
+  padding: 0;
+  border: none;
+}
+.param-type code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--sig-type);
+  background: none;
+  padding: 0;
+  border: none;
+}
+.param-desc { color: var(--text-dim); }
+
+/* ── Returns ───────────────────────────────────────────────── */
+.returns p { font-size: 14px; line-height: 1.6; }
+.ret-type {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--kind-enum);
+  background: rgba(92,201,142,0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* ── Remarks & Example ─────────────────────────────────────── */
+.remarks p { font-size: 14px; line-height: 1.65; }
+.example pre {
+  background: var(--bg-raised);
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle);
+  font-family: var(--mono);
+  font-size: 13px;
+  overflow-x: auto;
+  line-height: 1.55;
+  -webkit-overflow-scrolling: touch;
+}
+.example code { font-family: inherit; }
+
+/* ── Namespace sections ─────────────────────────────────────── */
+.namespace {
+  color: var(--accent);
+  font-size: clamp(16px, 2vw, 20px);
+  font-weight: 600;
+  margin: 40px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: -0.01em;
+}
+
+/* ── Nested members ────────────────────────────────────────── */
+.members {
+  margin-top: 16px;
+  padding-left: 16px;
+  border-left: 2px solid var(--border);
+}
+.members h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 16px 0 8px;
+}
+.member-count { font-weight: 400; color: var(--text-muted); font-size: 11px; }
+
+/* ── Utilities ─────────────────────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Responsive: tablet ─────────────────────────────────────── */
+@media (max-width: 860px) {
+  .content {
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.4);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .nav-toggle { display: flex; }
+  .nav-overlay.visible { display: block; }
+
+  .content {
+    padding-top: 60px;
+  }
+
+  .param-table thead { display: none; }
+  .param-table, .param-table tbody, .param-table tr, .param-table td {
+    display: block;
+  }
+  .param-table tr {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .param-table td {
+    padding: 2px 0;
+    border: none;
+  }
+  .param-table td:first-child { font-weight: 600; }
+}
+
+/* ── Responsive: phone ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .page-header h1 { font-size: 20px; }
+  .decl-name { font-size: 17px; }
+  .signature { font-size: 12px; padding: 10px 12px; }
+  .members { padding-left: 10px; }
+  .decl { margin-bottom: 28px; padding-bottom: 20px; }
+}
+
+/* ── Print ──────────────────────────────────────────────────── */
+@media print {
+  .sidebar, .nav-toggle, .nav-overlay { display: none !important; }
+  .content { margin-left: 0; max-width: 100%; }
+  body { background: white; color: #1a1a1a; }
+  .signature { background: #f5f5f5; border-color: #ddd; }
+  .decl { page-break-inside: avoid; }
+}
+  </style>
 </head>
 <body>
-<nav class="sidebar">
-  <h2>ContractStdlib</h2>
-  <span class="version">v0.1.0</span>
-  <input type="text" id="search" placeholder="Search..." autocomplete="off">
+<button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+  <span></span><span></span><span></span>
+</button>
+<div class="nav-overlay" id="nav-overlay"></div>
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1 class="sidebar-title">ContractStdlib</h1>
+    <span class="version">v0.1.0</span>
+  </div>
+  <input type="text" id="search" placeholder="Search declarations..." autocomplete="off">
   <ul id="nav-list">
+    <li class="nav-section">Generics</li>
+      <li><a href="#-a" data-kind="contract"><span class="kind-dot"></span>a</a></li>
+      <li><a href="#-HashMap" data-kind="contract"><span class="kind-dot"></span>HashMap</a></li>
+      <li><a href="#-option" data-kind="type"><span class="kind-dot"></span>option</a></li>
     <li class="nav-section">ObjektRT.Std</li>
-      <li><a href="#-abs" data-kind="function">abs</a></li>
-      <li><a href="#-add" data-kind="function">add</a></li>
-      <li><a href="#-inc" data-kind="function">inc</a></li>
-      <li><a href="#-mul" data-kind="function">mul</a></li>
-      <li><a href="#-negate" data-kind="function">negate</a></li>
+      <li><a href="#-Math" data-kind="contract"><span class="kind-dot"></span>Math</a></li>
+    <li class="nav-section">std.Generics</li>
+      <li><a href="#-Result" data-kind="type"><span class="kind-dot"></span>Result</a></li>
+    <li class="nav-section">thing</li>
+      <li><a href="#-List" data-kind="contract"><span class="kind-dot"></span>List</a></li>
   </ul>
 </nav>
-<main class="content">
-  <p class="description">the offficial ObjektRT standard library</p>
-  <h2 class="namespace">ObjektRT.Std</h2>
-  <div class="decl" id="-abs" data-kind="function">
+<main class="content" id="content">
+  <header class="page-header">
+    <h1>ContractStdlib</h1>
+    <p class="description">the offficial ObjektRT standard library</p>
+  </header>
+  <section class="ns-section">
+    <h2 class="namespace">Generics</h2>
+  <article class="decl" id="-a" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">a</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">a</span></code></pre>
+  </article>
+  <article class="decl" id="-HashMap" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">HashMap</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+      <span class="type-params">&lt;T&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">HashMap</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(1)</span></h4>
+  <article class="decl" id="-_map" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">_map</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">var</span> <span class="sig-name">_map</span>: <span class="sig-type">int</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+    </div>
+  </article>
+  <article class="decl" id="-option" data-kind="type">
+    <div class="decl-header">
+      <span class="kind-badge type">type</span>
+      <h3 class="decl-name">option</h3>
+      <span class="type-params">&lt;T&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">option</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <div class="variants">
+      <h4>Variants</h4>
+      <div class="variant-list">
+        <span class="variant-chip">Value</span>
+        <span class="variant-chip">None</span>
+      </div>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">ObjektRT.Std</h2>
+  <article class="decl" id="-Math" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">Math</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Math</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(3)</span></h4>
+  <article class="decl" id="-abs" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
       <h3 class="decl-name">abs</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
     </div>
-    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">abs</span>(<span class="sig-param"><span class="sig-pname">x</span>: <span class="sig-type">int</span></span>)</pre>
-    <p class="summary">returns the absolute value.</p>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">abs</span>(<span class="sig-pname">x</span>: <span class="sig-type">int</span>)</code></pre>
     <div class="params">
       <h4>Parameters</h4>
-      <div class="param-list">
-        <div class="param-row">
-          <span class="param-name">x</span>
-          <span class="param-type">int</span>
-          <span class="param-desc"></span>
-        </div>
-      </div>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>x</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </div>
-  <div class="decl" id="-add" data-kind="function">
+  </article>
+  <article class="decl" id="-add" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
       <h3 class="decl-name">add</h3>
-      <span class="type-chip">-&gt;&nbsp;a + b</span>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
     </div>
-    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">add</span>(<span class="sig-param"><span class="sig-pname">a</span>: <span class="sig-type">int</span></span>, <span class="sig-param"><span class="sig-pname">b</span>: <span class="sig-type">int</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">a + b</span></pre>
-    <p class="summary">increments numbers</p>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">add</span>(<span class="sig-pname">a</span>: <span class="sig-type">int</span>, <span class="sig-pname">b</span>: <span class="sig-type">int</span>)</code></pre>
     <div class="params">
       <h4>Parameters</h4>
-      <div class="param-list">
-        <div class="param-row">
-          <span class="param-name">a</span>
-          <span class="param-type">int</span>
-          <span class="param-desc">The first addend.</span>
-        </div>
-        <div class="param-row">
-          <span class="param-name">b</span>
-          <span class="param-type">int</span>
-          <span class="param-desc">The seccond addend.</span>
-        </div>
-      </div>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="returns">
-      <h4>Returns</h4>
-      <p><code class="ret-type">a + b</code> the sum of a and b</p>
-    </div>
-  </div>
-  <div class="decl" id="-inc" data-kind="function">
-    <div class="decl-header">
-      <span class="kind-badge function">function</span>
-      <h3 class="decl-name">inc</h3>
-      <span class="type-chip">-&gt;&nbsp;x + 1</span>
-    </div>
-    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">inc</span>(<span class="sig-param"><span class="sig-pname">x</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">x + 1</span></pre>
-    <p class="summary">increments a value</p>
-    <div class="params">
-      <h4>Parameters</h4>
-      <div class="param-list">
-        <div class="param-row">
-          <span class="param-name">x</span>
-          <span class="param-type"></span>
-          <span class="param-desc"></span>
-        </div>
-      </div>
-    </div>
-    <div class="returns">
-      <h4>Returns</h4>
-      <p><code class="ret-type">x + 1</code> </p>
-    </div>
-  </div>
-  <div class="decl" id="-mul" data-kind="function">
+  </article>
+  <article class="decl" id="-mul" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
       <h3 class="decl-name">mul</h3>
-      <span class="type-chip">-&gt;&nbsp;a * b</span>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
     </div>
-    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">mul</span>(<span class="sig-param"><span class="sig-pname">a</span>: <span class="sig-type">int</span></span>, <span class="sig-param"><span class="sig-pname">b</span>: <span class="sig-type">int</span></span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">a * b</span></pre>
-    <p class="summary">multiplies 2 numbers.</p>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">mul</span>(<span class="sig-pname">a</span>: <span class="sig-type">int</span>, <span class="sig-pname">b</span>: <span class="sig-type">int</span>)</code></pre>
     <div class="params">
       <h4>Parameters</h4>
-      <div class="param-list">
-        <div class="param-row">
-          <span class="param-name">a</span>
-          <span class="param-type">int</span>
-          <span class="param-desc"></span>
-        </div>
-        <div class="param-row">
-          <span class="param-name">b</span>
-          <span class="param-type">int</span>
-          <span class="param-desc"></span>
-        </div>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">std.Generics</h2>
+  <article class="decl" id="-Result" data-kind="type">
+    <div class="decl-header">
+      <span class="kind-badge type">type</span>
+      <h3 class="decl-name">Result</h3>
+      <span class="type-params">&lt;V, E&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">Result</span><span class="sig-type-params">&lt;<span class="sig-type">V</span>, <span class="sig-type">E</span>&gt;</span></code></pre>
+    <div class="variants">
+      <h4>Variants</h4>
+      <div class="variant-list">
+        <span class="variant-chip">Ok</span>
+        <span class="variant-chip">Err</span>
       </div>
     </div>
-    <div class="returns">
-      <h4>Returns</h4>
-      <p><code class="ret-type">a * b</code> </p>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">thing</h2>
+  <article class="decl" id="-List" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">List</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+      <span class="type-params">&lt;T&gt;</span>
     </div>
-  </div>
-  <div class="decl" id="-negate" data-kind="function">
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">List</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(6)</span></h4>
+  <article class="decl" id="-constructor" data-kind="constructor">
+    <div class="decl-header">
+      <span class="kind-badge constructor">constructor</span>
+      <h3 class="decl-name">constructor</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">constructor</span>()</code></pre>
+  </article>
+  <article class="decl" id="-count" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">count</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">var</span> <span class="sig-name">count</span>: <span class="sig-type">int</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Get" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
-      <h3 class="decl-name">negate</h3>
-      <span class="type-chip">-&gt;&nbsp;int = fn (x: int) -&gt; 0 - x</span>
+      <h3 class="decl-name">Get</h3>
     </div>
-    <pre class="signature"><span class="sig-kw">let</span> <span class="sig-name">negate</span>: <span class="sig-type">int = fn (x: int) -&gt; 0 - x</span></pre>
-    <p class="summary">negates the input.</p>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Get</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">T</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="returns">
       <h4>Returns</h4>
-      <p><code class="ret-type">int = fn (x: int) -&gt; 0 - x</code> </p>
+      <p><code class="ret-type">T</code> </p>
     </div>
-  </div>
+  </article>
+  <article class="decl" id="-items" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">items</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">var</span> <span class="sig-name">items</span>: <span class="sig-type">T[]</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">T[]</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Print" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Print</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Print</span>()</code></pre>
+  </article>
+  <article class="decl" id="-Set" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Set</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Set</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>, <span class="sig-pname">value</span>: <span class="sig-type">T</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>value</code></td>
+            <td class="param-type"><code>T</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+    </div>
+  </article>
+  </section>
 </main>
 <script>
 
-      const search = document.getElementById('search');
-      const navList = document.getElementById('nav-list');
-      const decls = document.querySelectorAll('.decl');
-      search.addEventListener('input', () => {
-        const q = search.value.toLowerCase();
-        navList.querySelectorAll('li a').forEach(a => {
-          const match = a.textContent.toLowerCase().includes(q);
-          a.parentElement.style.display = match || !q ? '' : 'none';
+(function() {
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('nav-toggle');
+  const overlay = document.getElementById('nav-overlay');
+  const search = document.getElementById('search');
+  const navList = document.getElementById('nav-list');
+  const decls = document.querySelectorAll('.decl');
+  const navLinks = navList.querySelectorAll('li a');
+
+  // Mobile sidebar toggle
+  toggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    toggle.classList.toggle('open');
+    overlay.classList.toggle('visible');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    toggle.classList.remove('open');
+    overlay.classList.remove('visible');
+  });
+
+  // Close sidebar on nav click (mobile)
+  navLinks.forEach(a => {
+    a.addEventListener('click', () => {
+      if (window.innerWidth <= 860) {
+        sidebar.classList.remove('open');
+        toggle.classList.remove('open');
+        overlay.classList.remove('visible');
+      }
+    });
+  });
+
+  // Search
+  search.addEventListener('input', () => {
+    const q = search.value.toLowerCase();
+    navLinks.forEach(a => {
+      const match = a.textContent.toLowerCase().includes(q);
+      a.parentElement.style.display = match || !q ? '' : 'none';
+    });
+    // Also show/hide section headers when all their children are hidden
+    navList.querySelectorAll('.nav-section').forEach(sec => {
+      let next = sec.nextElementSibling;
+      let anyVisible = false;
+      while (next && !next.classList.contains('nav-section')) {
+        if (next.style.display !== 'none') anyVisible = true;
+        next = next.nextElementSibling;
+      }
+      sec.style.display = anyVisible || !q ? '' : 'none';
+    });
+    decls.forEach(d => {
+      const name = d.querySelector('.decl-name')?.textContent.toLowerCase() || '';
+      const sig = d.querySelector('.signature')?.textContent.toLowerCase() || '';
+      const summary = d.querySelector('.summary')?.textContent.toLowerCase() || '';
+      d.classList.toggle('hidden', q && !name.includes(q) && !sig.includes(q) && !summary.includes(q));
+    });
+  });
+
+  // Scrollspy: highlight current declaration in nav
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
         });
-        decls.forEach(d => {
-          const name = d.querySelector('.decl-name')?.textContent.toLowerCase() || '';
-          const sig = d.querySelector('.signature')?.textContent.toLowerCase() || '';
-          d.classList.toggle('hidden', q && !name.includes(q) && !sig.includes(q));
-        });
-      });
-    
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  decls.forEach(d => observer.observe(d));
+})();
+
 </script>
 </body>
 </html>

@@ -1,72 +1,183 @@
-module Math version 1.0.0
+module Result version 1.0.0
 
-class ObjektRT.Std.Math {
-    static method add(a: int32, b: int32) -> int32 {
-        // #line 3:38 ""
+@Generic(V, E)
+class std.Generics.Result {
+    public field __tag: int32
+
+    static method Ok(value: V) -> std.Generics.Result {
+        // #line 3:1 "import "Generics/Option.ct";"
+        newobj std.Generics.Result.Ok.constructor()
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
         ldarg 0
-        // #line 3:42 ""
+        // #line 3:1 "import "Generics/Option.ct";"
+        call std.Generics.Result.Ok..ctor(object, V) -> void
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
+        ret
+    }
+
+    static method Err(message: E) -> std.Generics.Result {
+        // #line 3:1 "import "Generics/Option.ct";"
+        newobj std.Generics.Result.Err.constructor()
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
+        ldarg 0
+        // #line 3:1 "import "Generics/Option.ct";"
+        call std.Generics.Result.Err..ctor(object, E) -> void
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
+        ret
+    }
+}
+
+@Generic(V, E)
+class std.Generics.Result.Ok : std.Generics.Result {
+    public field value: V
+
+    constructor(this: object, value: V) {
+        // #line 3:1 "import "Generics/Option.ct";"
+        ldarg 0
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
         ldarg 1
-        // #line 3:42 ""
-        add
-        // #line 3:42 ""
+        // #line 3:1 "import "Generics/Option.ct";"
+        stfld Result.Ok::value
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
+        ldarg 0
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
+        ldc.i4 0
+        // #line 3:1 "import "Generics/Option.ct";"
+        stfld std.Generics.Result::__tag
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
         ret
     }
+}
 
-    static method mul(a: int32, b: int32) -> int32 {
-        // #line 4:39 "/// ObjektRT Stdlib"
+@Generic(V, E)
+class std.Generics.Result.Err : std.Generics.Result {
+    public field message: E
+
+    constructor(this: object, message: E) {
+        // #line 3:1 "import "Generics/Option.ct";"
         ldarg 0
-        // #line 4:43 "/// ObjektRT Stdlib"
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
         ldarg 1
-        // #line 4:43 "/// ObjektRT Stdlib"
-        mul
-        // #line 4:43 "/// ObjektRT Stdlib"
-        ret
-    }
-
-    static method abs(x: int32) -> int32 {
-        // #line 6:13 "/// This is the main entrypoint for the standard library"
+        // #line 3:1 "import "Generics/Option.ct";"
+        stfld Result.Err::message
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
         ldarg 0
-        // #line 6:17 "/// This is the main entrypoint for the standard library"
-        ldc.i4 0
-        // #line 6:17 "/// This is the main entrypoint for the standard library"
-        clt
-        // #line 6:17 "/// This is the main entrypoint for the standard library"
-        if (stack) {
-            // #line 6:29 "/// This is the main entrypoint for the standard library"
-            ldc.i4 0
-            // #line 6:33 "/// This is the main entrypoint for the standard library"
-            ldarg 0
-            // #line 6:33 "/// This is the main entrypoint for the standard library"
-            sub
-            // #line 6:33 "/// This is the main entrypoint for the standard library"
-            ret
-        }
-        // #line 7:16 "///"
-        ldarg 0
-        // #line 7:16 "///"
-        ret
-    }
-
-    static method negate(x: int32) -> int32 {
-        // #line 9:38 "/// is'nt as fleshed out as it should be."
-        ldc.i4 0
-        // #line 9:42 "/// is'nt as fleshed out as it should be."
-        ldarg 0
-        // #line 9:42 "/// is'nt as fleshed out as it should be."
-        sub
-        // #line 9:42 "/// is'nt as fleshed out as it should be."
-        ret
-    }
-
-    static method inc(x: int32) -> int32 {
-        // #line 10:25 "///"
-        ldarg 0
-        // #line 10:29 "///"
+        // #line 3:1 "import "Generics/Option.ct";"
+        dup
+        // #line 3:1 "import "Generics/Option.ct";"
         ldc.i4 1
-        // #line 10:29 "///"
-        add
-        // #line 10:29 "///"
+        // #line 3:1 "import "Generics/Option.ct";"
+        stfld std.Generics.Result::__tag
+        // #line 3:1 "import "Generics/Option.ct";"
+        pop
+        // #line 3:1 "import "Generics/Option.ct";"
         ret
     }
+}
+
+@Generic(T)
+class option {
+    public field __tag: int32
+
+    static method Value(v: T) -> option {
+        // #line 2:1 "import "Generics/Result.ct";"
+        newobj option.Value.constructor()
+        // #line 2:1 "import "Generics/Result.ct";"
+        dup
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldarg 0
+        // #line 2:1 "import "Generics/Result.ct";"
+        call option.Value..ctor(object, T) -> void
+        // #line 2:1 "import "Generics/Result.ct";"
+        pop
+        // #line 2:1 "import "Generics/Result.ct";"
+        ret
+    }
+
+    static method None() -> option {
+        // #line 2:1 "import "Generics/Result.ct";"
+        newobj option.None.constructor()
+        // #line 2:1 "import "Generics/Result.ct";"
+        dup
+        // #line 2:1 "import "Generics/Result.ct";"
+        call option.None..ctor(object) -> void
+        // #line 2:1 "import "Generics/Result.ct";"
+        pop
+        // #line 2:1 "import "Generics/Result.ct";"
+        ret
+    }
+}
+
+@Generic(T)
+class option.Value : option {
+    public field v: T
+
+    constructor(this: object, v: T) {
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldarg 0
+        // #line 2:1 "import "Generics/Result.ct";"
+        dup
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldarg 1
+        // #line 2:1 "import "Generics/Result.ct";"
+        stfld option.Value::v
+        // #line 2:1 "import "Generics/Result.ct";"
+        pop
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldarg 0
+        // #line 2:1 "import "Generics/Result.ct";"
+        dup
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldc.i4 0
+        // #line 2:1 "import "Generics/Result.ct";"
+        stfld option::__tag
+        // #line 2:1 "import "Generics/Result.ct";"
+        pop
+        // #line 2:1 "import "Generics/Result.ct";"
+        ret
+    }
+}
+
+@Generic(T)
+class option.None : option {
+    constructor(this: object) {
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldarg 0
+        // #line 2:1 "import "Generics/Result.ct";"
+        dup
+        // #line 2:1 "import "Generics/Result.ct";"
+        ldc.i4 1
+        // #line 2:1 "import "Generics/Result.ct";"
+        stfld option::__tag
+        // #line 2:1 "import "Generics/Result.ct";"
+        pop
+        // #line 2:1 "import "Generics/Result.ct";"
+        ret
+    }
+}
+
+@Generic(T)
+class HashMap {
+    public field _map: int32
 }
 

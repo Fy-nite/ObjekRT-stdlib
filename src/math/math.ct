@@ -1,0 +1,13 @@
+namespace ObjektRT.Std;
+Contract Math {
+    let add = fn(a: int, b: int) -> a + b;
+    let mul = fun(a: int, b: int) -> a * b;
+    let abs = fn(x: int) -> {
+        if (x < 0) { return negate(x); }
+        return x;
+
+    };
+    let negate: int = fn(x: int) -> 0 - x;
+    let inc = fn(x) -> x + 1;
+
+}

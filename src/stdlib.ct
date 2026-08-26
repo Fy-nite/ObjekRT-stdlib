@@ -1,15 +1,7 @@
-//namespace ObjektRT.Std;
-import "math.ct";
-
-/// ObjektRT Stdlib
-///
-/// This is the main entrypoint for the standard library
-///
-/// Contract, even though it can build code as a library.
-/// is'nt as fleshed out as it should be.
-///
-/// this file allows contract to compile the entire standard library into one file which you can include into your own programs.
-/// seperate files however will still be provided of course.
-///
-///
-///
+// import "Generics/List.ct";
+import "Generics/Result.ct";
+import "Generics/Option.ct";
+import "Generics/HashMap.ct";
+// import "Generics/";
+// import "Generics/";
+// import "Generics/";

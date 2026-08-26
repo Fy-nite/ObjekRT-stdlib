@@ -1,0 +1,6 @@
+import __builtin.std;
+Contract HashMap<T>
+{
+    _map: int;
+
+}

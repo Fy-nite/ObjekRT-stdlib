@@ -1,0 +1,7 @@
+namespace std.Generics;
+
+type Result<V,E>
+{
+    Ok(value: V)
+    |Err(message: E)
+}

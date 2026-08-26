@@ -1,4 +1,5 @@
 namespace thing;
+import __builtin.std;
 // Type-safe generic list contract.
 // Materialized at runtime: ValueList<int>, ValueList<Value>, etc.
 Contract List<T> {
@@ -16,6 +17,14 @@ Contract List<T> {
 
     fn Set(index: int, value: T) {
         this.items[index] = value;
+    }
+
+    fn Print()
+    {
+        for (var i = 0; i < this.Items.Count; i+=1)
+        {
+            IO.Println(Convert.ToString(items[i]));
+        }
     }
 
     fn Add(value: T) {
@@ -57,4 +66,5 @@ Contract List<T> {
         
         this.count += 1;
     }
+
 }
