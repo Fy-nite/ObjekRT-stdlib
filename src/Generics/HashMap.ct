@@ -1,6 +1,6 @@
-import __builtin.std;
+namespace ObjektRT.std.Generics;
+<CLRImport("System.Collections.Generic.HashMap")>
 Contract HashMap<T>
 {
-    _map: int;
 
 }

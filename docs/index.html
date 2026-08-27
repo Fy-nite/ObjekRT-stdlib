@@ -525,16 +525,16 @@ body {
   </div>
   <input type="text" id="search" placeholder="Search declarations..." autocomplete="off">
   <ul id="nav-list">
-    <li class="nav-section">Generics</li>
-      <li><a href="#-HashMap" data-kind="contract"><span class="kind-dot"></span>HashMap</a></li>
     <li class="nav-section">ObjektRT.std</li>
-      <li><a href="#-option" data-kind="type"><span class="kind-dot"></span>option</a></li>
+      <li><a href="#-Vector2" data-kind="contract"><span class="kind-dot"></span>Vector2</a></li>
     <li class="nav-section">ObjektRT.Std</li>
       <li><a href="#-Math" data-kind="contract"><span class="kind-dot"></span>Math</a></li>
+    <li class="nav-section">ObjektRT.std.Generics</li>
+      <li><a href="#-HashMap" data-kind="contract"><span class="kind-dot"></span>HashMap</a></li>
+      <li><a href="#-List" data-kind="contract"><span class="kind-dot"></span>List</a></li>
+      <li><a href="#-option" data-kind="type"><span class="kind-dot"></span>option</a></li>
     <li class="nav-section">std.Generics</li>
       <li><a href="#-Result" data-kind="type"><span class="kind-dot"></span>Result</a></li>
-    <li class="nav-section">thing</li>
-      <li><a href="#-List" data-kind="contract"><span class="kind-dot"></span>List</a></li>
   </ul>
 </nav>
 <main class="content" id="content">
@@ -543,49 +543,192 @@ body {
     <p class="description">the offficial ObjektRT standard library</p>
   </header>
   <section class="ns-section">
-    <h2 class="namespace">Generics</h2>
-  <article class="decl" id="-HashMap" data-kind="contract">
+    <h2 class="namespace">ObjektRT.std</h2>
+  <article class="decl" id="-Vector2" data-kind="contract">
     <div class="decl-header">
       <span class="kind-badge contract">contract</span>
-      <h3 class="decl-name">HashMap</h3>
+      <h3 class="decl-name">Vector2</h3>
       <span class="modifiers">
 <span class="mod">public</span>      </span>
-      <span class="type-params">&lt;T&gt;</span>
     </div>
-    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">HashMap</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Vector2</span></code></pre>
     <div class="members">
-      <h4>Members <span class="member-count">(1)</span></h4>
-  <article class="decl" id="-_map" data-kind="field">
+      <h4>Members <span class="member-count">(7)</span></h4>
+  <article class="decl" id="-Add" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Add</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Add</span>(<span class="sig-pname">a</span>: <span class="sig-type">Vector2</span>, <span class="sig-pname">b</span>: <span class="sig-type">Vector2</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">Vector2</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">Vector2</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-constructor" data-kind="constructor">
+    <div class="decl-header">
+      <span class="kind-badge constructor">constructor</span>
+      <h3 class="decl-name">constructor</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">constructor</span>(<span class="sig-pname">_X</span>: <span class="sig-type">int</span>, <span class="sig-pname">_Y</span>: <span class="sig-type">int</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>_X</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>_Y</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+  <article class="decl" id="-Div" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Div</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Div</span>(<span class="sig-pname">a</span>: <span class="sig-type">Vector2</span>, <span class="sig-pname">b</span>: <span class="sig-type">Vector2</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">Vector2</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">Vector2</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Mul" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Mul</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Mul</span>(<span class="sig-pname">a</span>: <span class="sig-type">Vector2</span>, <span class="sig-pname">b</span>: <span class="sig-type">Vector2</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">Vector2</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">Vector2</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Sub" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Sub</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Sub</span>(<span class="sig-pname">a</span>: <span class="sig-type">Vector2</span>, <span class="sig-pname">b</span>: <span class="sig-type">Vector2</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">Vector2</span></code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>a</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>b</code></td>
+            <td class="param-type"><code>Vector2</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">Vector2</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-x" data-kind="field">
     <div class="decl-header">
       <span class="kind-badge field">field</span>
-      <h3 class="decl-name">_map</h3>
+      <h3 class="decl-name">x</h3>
       <span class="modifiers">
 <span class="mod">public</span>      </span>
     </div>
-    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">var</span> <span class="sig-name">_map</span>: <span class="sig-type">int</span></code></pre>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">var</span> <span class="sig-name">x</span>: <span class="sig-type">int</span></code></pre>
     <div class="returns">
       <h4>Type</h4>
       <p><code class="ret-type">int</code> </p>
     </div>
   </article>
+  <article class="decl" id="-y" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">y</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">var</span> <span class="sig-name">y</span>: <span class="sig-type">int</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">int</code> </p>
     </div>
   </article>
-  </section>
-  <section class="ns-section">
-    <h2 class="namespace">ObjektRT.std</h2>
-  <article class="decl" id="-option" data-kind="type">
-    <div class="decl-header">
-      <span class="kind-badge type">type</span>
-      <h3 class="decl-name">option</h3>
-      <span class="type-params">&lt;T&gt;</span>
-    </div>
-    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">option</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
-    <div class="variants">
-      <h4>Variants</h4>
-      <div class="variant-list">
-        <span class="variant-chip">Value</span>
-        <span class="variant-chip">None</span>
-      </div>
     </div>
   </article>
   </section>
@@ -729,25 +872,20 @@ body {
   </article>
   </section>
   <section class="ns-section">
-    <h2 class="namespace">std.Generics</h2>
-  <article class="decl" id="-Result" data-kind="type">
+    <h2 class="namespace">ObjektRT.std.Generics</h2>
+  <article class="decl" id="-HashMap" data-kind="contract">
     <div class="decl-header">
-      <span class="kind-badge type">type</span>
-      <h3 class="decl-name">Result</h3>
-      <span class="type-params">&lt;V, E&gt;</span>
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">HashMap</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+      <span class="type-params">&lt;T&gt;</span>
     </div>
-    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">Result</span><span class="sig-type-params">&lt;<span class="sig-type">V</span>, <span class="sig-type">E</span>&gt;</span></code></pre>
-    <div class="variants">
-      <h4>Variants</h4>
-      <div class="variant-list">
-        <span class="variant-chip">Ok</span>
-        <span class="variant-chip">Err</span>
-      </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">HashMap</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <div class="attributes">
+      <span class="attr">@CLRImport(&quot;System.Collections.Generic.HashMap&quot;)</span>
     </div>
   </article>
-  </section>
-  <section class="ns-section">
-    <h2 class="namespace">thing</h2>
   <article class="decl" id="-List" data-kind="contract">
     <div class="decl-header">
       <span class="kind-badge contract">contract</span>
@@ -758,7 +896,7 @@ body {
     </div>
     <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">List</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
     <div class="members">
-      <h4>Members <span class="member-count">(11)</span></h4>
+      <h4>Members <span class="member-count">(12)</span></h4>
   <article class="decl" id="-Add" data-kind="function">
     <div class="decl-header">
       <span class="kind-badge function">function</span>
@@ -826,6 +964,26 @@ body {
     <div class="returns">
       <h4>Returns</h4>
       <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Do" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Do</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Do</span>(<span class="sig-pname">func</span>: <span class="sig-type">(T) -&gt; T</span>)</code></pre>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>func</code></td>
+            <td class="param-type"><code>(T) -&gt; T</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </article>
   <article class="decl" id="-Get" data-kind="function">
@@ -926,6 +1084,39 @@ body {
       </table>
     </div>
   </article>
+    </div>
+  </article>
+  <article class="decl" id="-option" data-kind="type">
+    <div class="decl-header">
+      <span class="kind-badge type">type</span>
+      <h3 class="decl-name">option</h3>
+      <span class="type-params">&lt;T&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">option</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <div class="variants">
+      <h4>Variants</h4>
+      <div class="variant-list">
+        <span class="variant-chip">Value</span>
+        <span class="variant-chip">None</span>
+      </div>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">std.Generics</h2>
+  <article class="decl" id="-Result" data-kind="type">
+    <div class="decl-header">
+      <span class="kind-badge type">type</span>
+      <h3 class="decl-name">Result</h3>
+      <span class="type-params">&lt;V, E&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">type</span> <span class="sig-name">Result</span><span class="sig-type-params">&lt;<span class="sig-type">V</span>, <span class="sig-type">E</span>&gt;</span></code></pre>
+    <div class="variants">
+      <h4>Variants</h4>
+      <div class="variant-list">
+        <span class="variant-chip">Ok</span>
+        <span class="variant-chip">Err</span>
+      </div>
     </div>
   </article>
   </section>

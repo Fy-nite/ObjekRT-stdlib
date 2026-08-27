@@ -1,0 +1,32 @@
+namespace ObjektRT.std;
+Contract Vector2
+{
+    public x:int;
+    public y:int;
+    constructor(_X:int, _Y:int)
+    {
+        x = _X;
+        y = _Y;
+    }
+
+    let Add: Vector2 = fn (a: Vector2, b: Vector2) -> {
+        a.x += b.x;
+        a.y += b.y;
+        return a;
+    };
+    let Sub: Vector2 = fn (a: Vector2, b: Vector2) -> {
+        a.x -= b.x;
+        a.y -= b.y;
+        return a;
+    };
+    let Mul: Vector2 = fn (a: Vector2, b: Vector2) -> {
+        a.x -= b.x;
+        a.y -= b.y;
+        return a;
+    };
+    let Div: Vector2 = fn (a: Vector2, b: Vector2) -> {
+        a.x -= b.x;
+        a.y -= b.y;
+        return a;
+    };
+}

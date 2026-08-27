@@ -1,4 +1,4 @@
-namespace thing;
+namespace ObjektRT.std.Generics;
 import __builtin.std;
 // Type-safe generic list contract.
 // Materialized at runtime: ValueList<int>, ValueList<Value>, etc.
@@ -52,9 +52,9 @@ Contract List<T> {
         return Get(items.Count - 1);
     }
     
-    // fn Sort(compare: (T, T) -> int) { 
-
-    // }
+    fn Do(func: (T) -> T) { 
+        func(this);
+    }
 
     fn AddRange(items: T[]) {
          if (this.count == this.items.Count) {

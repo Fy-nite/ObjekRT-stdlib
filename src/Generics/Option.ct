@@ -1,4 +1,4 @@
-namespace ObjektRT.std;
+namespace ObjektRT.std.Generics;
 type option<T>
 {
     Value(v: T)
