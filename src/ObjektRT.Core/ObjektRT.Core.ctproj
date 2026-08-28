@@ -1,7 +1,7 @@
 {
   "Name": "ObjektRT.Core",
   "Type": "lib",
-  "Sources": ["*.ct"],
+  "Sources": ["**/*.ct"],
   "Namespace": "ObjektRT.Core",
   "Output": "bin",
   "Version": "0.1.0",

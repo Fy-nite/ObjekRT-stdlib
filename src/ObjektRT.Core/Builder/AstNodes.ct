@@ -1,0 +1,65 @@
+import "../../../bin/ObjektRT.std.Generics.orbt";
+public Contract SourceLocation {
+    public Line:int;
+    public Colum :int;
+
+}
+
+public Contract AstNode {
+    public Location: SourceLocation;
+}
+
+
+public Contract ModuleNode {
+    
+    public Version:string;
+    public Interfaces: List<InterfaceNode>;
+    public Classes: List<ClassNode>;
+    public Structs: List<StructNode>;
+
+    public ModuleAttributes: List<Attribute>
+
+    constructor(name:string,version:string,interfaces: List<InterfaceNode>, classes: List<ClassNode>) {
+        Version = version;
+        Interfaces.AddRange(interfaces);
+        Classes.AddRange(classes);
+    }
+
+    public fn AddClass(name:string)
+    {
+        let node = new ClassNode(name);
+        Classes.Add(node);
+        return node;
+    }
+}
+
+public Contract InterfaceNode {
+    public Namespace:string;
+    public Access: AccessModifier;
+    public Methods: List<MethodSignatures>;
+    public Attributes: List<AttributeNode>;
+}
+
+public Contract ClassNode {
+    public Namespace: string
+    public BaseType: string
+    public BaseTypes: List<string>
+    public Interfaces: List<string>; 
+    public Modifiers: List<AccessModifier>
+    public Fields: List<FieldNode>
+    public Constructors: List<ConstructorNode>
+    public Methods: List<MethodNode>
+    public Attributes: List<AttributeNode>
+    public IsAbstract: bool
+    public IsSealed: bool
+    public IsStatic: bool
+    public GenericParameters : List<GenericParameterNode>
+}
+
+
+
+public Contract TypeRef {
+    constructor(name: string, version: string, interfaces : List<InterfaceNode>) {
+
+    }
+}
