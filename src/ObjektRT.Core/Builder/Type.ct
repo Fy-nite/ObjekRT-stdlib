@@ -1,0 +1,192 @@
+namespace ObjektRT.Core;
+import __builtin.std;
+
+/// Root reflection type, the analog of C#'s System.Type.
+///
+/// A Type value can represent ANY type in the loaded module — a primitive,
+/// a contract, a struct, an interface or an enum — and expose its metadata
+/// (full name, base type, kind, flags, interfaces, methods, fields) at
+/// runtime. It is created from a type name via Type.Of(name) /
+/// Type.Get(name), mirroring System.Type.GetType.
+///
+/// The metadata is resolved lazily from the runtime's reflection host; on a
+/// host without reflection every accessor returns an empty/neutral value.
+Contract Type {
+    public FullName: string;
+
+    constructor() {
+        this.FullName = "";
+    }
+
+    constructor(name: string) {
+        this.FullName = name;
+    }
+
+    /// The simple type name (everything after the last '.').
+    fn Name() -> string {
+        return TypeHelper.GetName(this.FullName);
+    }
+
+    /// The namespace (everything before the last '.'), or "" when none.
+    fn Namespace() -> string {
+        return TypeHelper.GetNamespace(this.FullName);
+    }
+
+    /// The direct base type, or null when the type has no base / base is external.
+    fn BaseType() -> Type {
+        // The Reflect host is stringly-typed; resolve the base name then look
+        // it up as a Type handle.
+        var name = Reflect.Base(this.FullName);
+        if (name == "") { return null; }
+        return Type.Of(name);
+    }
+
+    /// The direct base type's wire name, or "" when none (stringly compat).
+    fn BaseName() -> string {
+        return Reflect.Base(this.FullName);
+    }
+
+    fn Kind() -> string {
+        return Reflect.Kind(this);
+    }
+
+    fn Access() -> string {
+        return Reflect.Access(this);
+    }
+
+    fn IsClass() -> bool {
+        return Reflect.IsClass(this);
+    }
+
+    fn IsInterface() -> bool {
+        return Reflect.IsInterface(this);
+    }
+
+    fn IsStruct() -> bool {
+        return Reflect.IsStruct(this);
+    }
+
+    fn IsEnum() -> bool {
+        return Reflect.IsEnum(this);
+    }
+
+    fn IsAbstract() -> bool {
+        return Reflect.IsAbstract(this);
+    }
+
+    fn IsSealed() -> bool {
+        return Reflect.IsSealed(this);
+    }
+
+    /// Field names declared on the type, inherited included ("Type.field").
+    fn Fields() -> string[] {
+        return Reflect.Fields(this);
+    }
+
+    fn DeclaredFields() -> string[] {
+        return Reflect.DeclaredFields(this);
+    }
+
+    /// Method names declared on the type, inherited included ("Type.Method").
+    fn Methods() -> string[] {
+        return Reflect.Methods(this);
+    }
+
+    fn DeclaredMethods() -> string[] {
+        return Reflect.DeclaredMethods(this);
+    }
+
+    /// This type and all its bases, most-derived first, as typed objects.
+    fn Hierarchy() -> Type[] {
+        return Reflect.Hierarchy(this);
+    }
+
+    /// Direct interfaces implemented by the type, as typed objects.
+    fn Interfaces() -> Type[] {
+        return Reflect.Interfaces(this);
+    }
+
+    fn AllInterfaces() -> Type[] {
+        return Reflect.AllInterfaces(this);
+    }
+
+    fn Attributes() -> string[] {
+        return Reflect.Attributes(this);
+    }
+
+    // Type-based overloads (preferred over stringly versions)
+
+    fn IsSubclassOf(other: Type) -> bool {
+        return Reflect.IsSubclassOf(this, other);
+    }
+
+    fn IsSubclassOfName(baseName: string) -> bool {
+        var baseType = Type.Of(baseName);
+        if (baseType == null) { return false; }
+        return Reflect.IsSubclassOf(this, baseType);
+    }
+
+    fn IsAssignableFrom(other: Type) -> bool {
+        return Reflect.IsAssignableFrom(this, other);
+    }
+
+    fn IsAssignableFromName(otherName: string) -> bool {
+        var other = Type.Of(otherName);
+        if (other == null) { return false; }
+        return Reflect.IsAssignableFrom(this, other);
+    }
+
+    fn FieldType(fieldName: string) -> string {
+        return Reflect.FieldType(this, fieldName);
+    }
+
+    fn FieldStatic(fieldName: string) -> bool {
+        return Reflect.FieldStatic(this, fieldName);
+    }
+
+    fn MethodReturn(methodName: string) -> string {
+        return Reflect.MethodReturn(this, methodName);
+    }
+
+    fn MethodParams(methodName: string) -> string[] {
+        return Reflect.MethodParams(this, methodName);
+    }
+
+    fn Equals(other: Type) -> bool {
+        return this.FullName == other.FullName;
+    }
+
+    fn ToString() -> string {
+        return this.FullName;
+    }
+
+    // Static factories
+
+    static fn Of(name: string) -> Type {
+        if (Reflect.HasType(name)) {
+            var t = new Type();
+            t.FullName = name;
+            return t;
+        }
+        return null;
+    }
+
+    static fn Exists(name: string) -> bool {
+        return Reflect.HasType(name);
+    }
+
+    static fn ModuleName() -> string {
+        return Reflect.ModuleName();
+    }
+}
+
+/// Compat shim: static entry points mirroring System.Type (prefer Type.Of).
+Contract TypeOf {
+    static fn Of(name: string) -> Type {
+        return Type.Of(name);
+    }
+
+    static fn Exists(name: string) -> bool {
+        return Type.Exists(name);
+    }
+}

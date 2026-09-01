@@ -1,0 +1,18 @@
+import ObjektRT.Core;
+import __builtin.std;
+
+Contract Program {
+  static fn Main() {
+    var dt = new DateTime(2024, 1, 15);
+    IO.Println(dt.Year());
+    IO.Println(dt.Month());
+    IO.Println(dt.Day());
+    IO.Println(dt.ToShortDate());
+    IO.Println(dt.ToIso());
+    var later = dt.AddDays(10);
+    IO.Println(later.Day());
+    var now = DateTime.Now();
+    IO.Println(now.Year());
+    IO.Println(now.DebugString());
+  }
+}

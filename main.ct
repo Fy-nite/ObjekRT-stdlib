@@ -1,0 +1,8 @@
+import "bin/ObjektRT.Core.orbt";
+
+Contract Program: Type {
+    static fn Main() {
+    
+    }
+
+}

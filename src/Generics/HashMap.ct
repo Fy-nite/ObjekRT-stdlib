@@ -1,5 +1,4 @@
 namespace ObjektRT.std.Generics;
-<CLRImport("System.Collections.Generic.HashMap")>
 Contract HashMap<T>
 {
 

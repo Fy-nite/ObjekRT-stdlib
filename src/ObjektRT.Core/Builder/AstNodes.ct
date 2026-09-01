@@ -1,0 +1,514 @@
+import __builtin.std;
+
+public Contract SourceLocation {
+    public Line: int;
+    public Column: int;
+    public SourceLine: string;
+
+    constructor(line: int, column: int) {
+        this.Line = line;
+        this.Column = column;
+        this.SourceLine = "";
+    }
+
+    constructor(line: int, column: int, sourceLine: string) {
+        this.Line = line;
+        this.Column = column;
+        this.SourceLine = sourceLine;
+    }
+}
+
+public Contract AstNode {
+    public Location: SourceLocation;
+}
+
+public Contract ModuleNode: AstNode {
+    public Name: string;
+    public Version: string;
+    public Interfaces: List<InterfaceNode>;
+    public Classes: List<ClassNode>;
+    public Structs: List<StructNode>;
+    public ModuleAttributes: List<AttributeNode>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Version = "";
+        this.Interfaces = new List<InterfaceNode>();
+        this.Classes = new List<ClassNode>();
+        this.Structs = new List<StructNode>();
+        this.ModuleAttributes = new List<AttributeNode>();
+    }
+
+    constructor(name: string, version: string, interfaces: List<InterfaceNode>, classes: List<ClassNode>) {
+        this.Name = name;
+        this.Version = version;
+        this.Interfaces = interfaces;
+        this.Classes = classes;
+        this.Structs = new List<StructNode>();
+        this.ModuleAttributes = new List<AttributeNode>();
+    }
+
+    fn AddClass(name: string) -> ClassNode {
+        let node = new ClassNode(name);
+        this.Classes.Add(node);
+        return node;
+    }
+
+    fn AddInterface(name: string) -> InterfaceNode {
+        let node = new InterfaceNode(name);
+        this.Interfaces.Add(node);
+        return node;
+    }
+
+    fn AddStruct(name: string) -> StructNode {
+        let node = new StructNode(name);
+        this.Structs.Add(node);
+        return node;
+    }
+}
+
+public Contract InterfaceNode: AstNode {
+    public Name: string;
+    public Namespace: string;
+    public Access: AccessModifier;
+    public Methods: List<MethodSignature>;
+    public Attributes: List<AttributeNode>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Namespace = "";
+        this.Access = AccessModifier.Public;
+        this.Methods = new List<MethodSignature>();
+        this.Attributes = new List<AttributeNode>();
+    }
+
+    constructor(name: string, methods: List<MethodSignature>) {
+        this.Name = name;
+        this.Namespace = "";
+        this.Access = AccessModifier.Public;
+        this.Methods = methods;
+        this.Attributes = new List<AttributeNode>();
+    }
+}
+
+public Contract StructNode: AstNode {
+    public Name: string;
+    public Namespace: string;
+    public Access: AccessModifier;
+    public Methods: List<MethodNode>;
+    public Fields: List<FieldNode>;
+    public Attributes: List<AttributeNode>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Namespace = "";
+        this.Access = AccessModifier.Public;
+        this.Methods = new List<MethodNode>();
+        this.Fields = new List<FieldNode>();
+        this.Attributes = new List<AttributeNode>();
+    }
+}
+
+public Contract ClassNode: AstNode {
+    public Name: string;
+    public Namespace: string;
+    public BaseType: string;
+    public BaseTypes: List<string>;
+    public Interfaces: List<string>;
+    public Modifiers: List<AccessModifier>;
+    public Fields: List<FieldNode>;
+    public Constructors: List<ConstructorNode>;
+    public Methods: List<MethodNode>;
+    public Attributes: List<AttributeNode>;
+    public IsAbstract: bool;
+    public IsSealed: bool;
+    public IsStatic: bool;
+    public GenericParameters: List<GenericParameterNode>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Namespace = "";
+        this.BaseType = "";
+        this.BaseTypes = new List<string>();
+        this.Interfaces = new List<string>();
+        this.Modifiers = new List<AccessModifier>();
+        this.Fields = new List<FieldNode>();
+        this.Constructors = new List<ConstructorNode>();
+        this.Methods = new List<MethodNode>();
+        this.Attributes = new List<AttributeNode>();
+        this.IsAbstract = false;
+        this.IsSealed = false;
+        this.IsStatic = false;
+        this.GenericParameters = new List<GenericParameterNode>();
+    }
+
+    constructor(name: string, baseTypes: List<string>, fields: List<FieldNode>, constructors: List<ConstructorNode>, methods: List<MethodNode>) {
+        this.Name = name;
+        this.Namespace = "";
+        this.BaseType = "";
+        this.BaseTypes = baseTypes;
+        this.Interfaces = new List<string>();
+        this.Modifiers = new List<AccessModifier>();
+        this.Fields = fields;
+        this.Constructors = constructors;
+        this.Methods = methods;
+        this.Attributes = new List<AttributeNode>();
+        this.IsAbstract = false;
+        this.IsSealed = false;
+        this.IsStatic = false;
+        this.GenericParameters = new List<GenericParameterNode>();
+    }
+}
+
+public Contract GenericParameterNode: AstNode {
+    public Name: string;
+
+    constructor(name: string) {
+        this.Name = name;
+    }
+}
+
+public Contract AttributeNode: AstNode {
+    public Name: string;
+    public Arguments: List<string>;
+    public NamedArguments: List<string>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Arguments = new List<string>();
+        this.NamedArguments = new List<string>();
+    }
+
+    constructor(name: string, args: List<string>) {
+        this.Name = name;
+        this.Arguments = args;
+        this.NamedArguments = new List<string>();
+    }
+
+    constructor(name: string, arguments: string[]) {
+        this.Name = name;
+        this.Arguments = new List<string>();
+        for (var i = 0; i < arguments.Count; i += 1) {
+            this.Arguments.Add(arguments[i]);
+        }
+        this.NamedArguments = new List<string>();
+    }
+}
+
+public Contract FieldNode: AstNode {
+    public Name: string;
+    public FieldType: TypeRef;
+    public Access: AccessModifier;
+    public IsStatic: bool;
+    public IsReadOnly: bool;
+
+    constructor(name: string, fieldType: TypeRef) {
+        this.Name = name;
+        this.FieldType = fieldType;
+        this.Access = AccessModifier.Public;
+        this.IsStatic = false;
+        this.IsReadOnly = false;
+    }
+
+    constructor(name: string, fieldType: TypeRef, access: AccessModifier) {
+        this.Name = name;
+        this.FieldType = fieldType;
+        this.Access = access;
+        this.IsStatic = false;
+        this.IsReadOnly = false;
+    }
+}
+
+public Contract MethodSignature: AstNode {
+    public Name: string;
+    public Parameters: List<ParameterNode>;
+    public ReturnType: TypeRef;
+    public IsStatic: bool;
+    public Implements: string;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Parameters = new List<ParameterNode>();
+        this.ReturnType = TypeRef.Void;
+        this.IsStatic = false;
+        this.Implements = "";
+    }
+
+    constructor(name: string, parameters: List<ParameterNode>, returnType: TypeRef, isStatic: bool, implements: string) {
+        this.Name = name;
+        this.Parameters = parameters;
+        this.ReturnType = returnType;
+        this.IsStatic = isStatic;
+        this.Implements = implements;
+    }
+}
+
+public Contract ConstructorNode: AstNode {
+    public Parameters: List<ParameterNode>;
+    public Attributes: List<AttributeNode>;
+    public Body: BlockStatement;
+
+    constructor() {
+        this.Parameters = new List<ParameterNode>();
+        this.Attributes = new List<AttributeNode>();
+        this.Body = new BlockStatement(new List<Statement>());
+    }
+
+    constructor(parameters: List<ParameterNode>, body: BlockStatement) {
+        this.Parameters = parameters;
+        this.Attributes = new List<AttributeNode>();
+        this.Body = body;
+    }
+}
+
+public Contract MethodNode: AstNode {
+    public Name: string;
+    public Parameters: List<ParameterNode>;
+    public ReturnType: TypeRef;
+    public IsStatic: bool;
+    public IsVirtual: bool;
+    public IsOverride: bool;
+    public IsAbstract: bool;
+    public Implements: string;
+    public Body: BlockStatement;
+    public Access: AccessModifier;
+    public Locals: List<LocalDeclarationStatement>;
+    public Attributes: List<AttributeNode>;
+
+    constructor(name: string) {
+        this.Name = name;
+        this.Parameters = new List<ParameterNode>();
+        this.ReturnType = TypeRef.Void;
+        this.IsStatic = false;
+        this.IsVirtual = false;
+        this.IsOverride = false;
+        this.IsAbstract = false;
+        this.Implements = "";
+        this.Body = new BlockStatement(new List<Statement>());
+        this.Access = AccessModifier.Public;
+        this.Locals = new List<LocalDeclarationStatement>();
+        this.Attributes = new List<AttributeNode>();
+    }
+
+    constructor(name: string, parameters: List<ParameterNode>, returnType: TypeRef, isStatic: bool, implements: string, body: BlockStatement) {
+        this.Name = name;
+        this.Parameters = parameters;
+        this.ReturnType = returnType;
+        this.IsStatic = isStatic;
+        this.IsVirtual = false;
+        this.IsOverride = false;
+        this.IsAbstract = false;
+        this.Implements = implements;
+        this.Body = body;
+        this.Access = AccessModifier.Public;
+        this.Locals = new List<LocalDeclarationStatement>();
+        this.Attributes = new List<AttributeNode>();
+    }
+}
+
+public Contract ParameterNode: AstNode {
+    public Name: string;
+    public ParameterType: TypeRef;
+
+    constructor(name: string, paramType: TypeRef) {
+        this.Name = name;
+        this.ParameterType = paramType;
+    }
+}
+
+public Contract TypeRef: AstNode {
+    public Name: string;
+    static Void: TypeRef;
+    static Int32: TypeRef;
+    static Int64: TypeRef;
+    static Float32: TypeRef;
+    static Float64: TypeRef;
+    static String: TypeRef;
+    static Bool: TypeRef;
+    static Object: TypeRef;
+
+    constructor(name: string) {
+        this.Name = name;
+    }
+}
+
+enum AccessModifier {
+    Private,
+    Public,
+    Protected,
+    Internal
+}
+
+public Contract Statement: AstNode {
+}
+
+public Contract BlockStatement: Statement {
+    public Statements: List<Statement>;
+
+    constructor(statements: List<Statement>) {
+        this.Statements = statements;
+    }
+}
+
+public Contract LocalDeclarationStatement: Statement {
+    public Name: string;
+    public LocalType: TypeRef;
+
+    constructor(name: string, localType: TypeRef) {
+        this.Name = name;
+        this.LocalType = localType;
+    }
+}
+
+public Contract InstructionStatement: Statement {
+    public Instruction: Instruction;
+
+    constructor(instruction: Instruction) {
+        this.Instruction = instruction;
+    }
+}
+
+public Contract IfStatement: Statement {
+    public Condition: string;
+    public Then: BlockStatement;
+    public Else: BlockStatement;
+
+    constructor(condition: string, thenBlock: BlockStatement, elseBlock: BlockStatement) {
+        this.Condition = condition;
+        this.Then = thenBlock;
+        this.Else = elseBlock;
+    }
+}
+
+public Contract WhileStatement: Statement {
+    public Condition: string;
+    public Body: BlockStatement;
+
+    constructor(condition: string, body: BlockStatement) {
+        this.Condition = condition;
+        this.Body = body;
+    }
+}
+
+public Contract SwitchCase: AstNode {
+    public Value: int;
+    public HasValue: bool;
+    public Body: BlockStatement;
+    public StringValue: string;
+
+    constructor(value: int, body: BlockStatement) {
+        this.Value = value;
+        this.HasValue = true;
+        this.Body = body;
+        this.StringValue = "";
+    }
+}
+
+public Contract SwitchStatement: Statement {
+    public Expression: string;
+    public Cases: List<SwitchCase>;
+
+    constructor(expression: string, cases: List<SwitchCase>) {
+        this.Expression = expression;
+        this.Cases = cases;
+    }
+}
+
+public Contract CatchClause: AstNode {
+    public ExceptionType: string;
+    public ExceptionVar: string;
+    public Body: BlockStatement;
+
+    constructor(exceptionType: string, exceptionVar: string, body: BlockStatement) {
+        this.ExceptionType = exceptionType;
+        this.ExceptionVar = exceptionVar;
+        this.Body = body;
+    }
+}
+
+public Contract TryStatement: Statement {
+    public TryBlock: BlockStatement;
+    public CatchClauses: List<CatchClause>;
+    public FinallyBlock: BlockStatement;
+
+    constructor(tryBlock: BlockStatement, catchClauses: List<CatchClause>, finallyBlock: BlockStatement) {
+        this.TryBlock = tryBlock;
+        this.CatchClauses = catchClauses;
+        this.FinallyBlock = finallyBlock;
+    }
+}
+
+public Contract ThrowStatement: Statement {
+    constructor() {
+    }
+}
+
+public Contract Instruction: AstNode {
+}
+
+public Contract SimpleInstruction: Instruction {
+    public OpCode: string;
+    public Operand: string;
+
+    constructor(opCode: string, operand: string) {
+        this.OpCode = opCode;
+        this.Operand = operand;
+    }
+
+    constructor(opCode: string) {
+        this.OpCode = opCode;
+        this.Operand = "";
+    }
+}
+
+public Contract MethodReference: AstNode {
+    public DeclaringType: TypeRef;
+    public Name: string;
+    public ReturnType: TypeRef;
+    public ParameterTypes: List<TypeRef>;
+    public GenericArguments: List<TypeRef>;
+
+    constructor(declaringType: TypeRef, name: string, returnType: TypeRef, parameterTypes: List<TypeRef>) {
+        this.DeclaringType = declaringType;
+        this.Name = name;
+        this.ReturnType = returnType;
+        this.ParameterTypes = parameterTypes;
+        this.GenericArguments = new List<TypeRef>();
+    }
+}
+
+public Contract FieldReference: AstNode {
+    public DeclaringType: TypeRef;
+    public Name: string;
+    public FieldType: TypeRef;
+
+    constructor(declaringType: TypeRef, name: string, fieldType: TypeRef) {
+        this.DeclaringType = declaringType;
+        this.Name = name;
+        this.FieldType = fieldType;
+    }
+}
+
+public Contract CallInstruction: Instruction {
+    public Target: MethodReference;
+    public Arguments: List<TypeRef>;
+    public IsVirtual: bool;
+
+    constructor(target: MethodReference, args: List<TypeRef>, isVirtual: bool) {
+        this.Target = target;
+        this.Arguments = args;
+        this.IsVirtual = isVirtual;
+    }
+}
+
+public Contract NewObjInstruction: Instruction {
+    public TargetType: TypeRef;
+    public Ctor: MethodReference;
+    public Arguments: List<TypeRef>;
+
+    constructor(targetType: TypeRef, ctor: MethodReference, args: List<TypeRef>) {
+        this.TargetType = targetType;
+        this.Ctor = ctor;
+        this.Arguments = args;
+    }
+}

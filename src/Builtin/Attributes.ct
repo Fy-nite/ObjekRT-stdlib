@@ -1,0 +1,41 @@
+namespace ObjektRT.Builtin.Attributes;
+
+/// Base type for all attribute declarations.
+Contract Attribute { }
+
+/// Links a facade contract to a CLR type's public static methods.
+/// The type is resolved via reflection at runtime.
+///
+/// Positional form: <ClrImport("System.Math")>
+/// Named form:     <ClrImport(Type: "System.IO.File", Path: "Foo.dll")>
+///
+/// The optional Path argument loads the type from a project-local .NET
+/// assembly instead of the BCL. Path is resolved relative to the source
+/// file's directory.
+Contract ClrImport: Attribute {
+    Type: string;
+    Path: string;
+}
+
+/// Links a facade contract to a host-side [ClassBinding] module.
+/// Calls dispatch to Module.Method at runtime.
+Contract NativeBinding: Attribute {
+    Module: string;
+}
+
+/// Links a facade contract to a native P/Invoke library.
+/// Methods are emitted as stubs for the DllImportResolver bridge.
+/// generation of said bindings might take a moment when the program first starts up.
+Contract DllImport: Attribute {
+    Library: string;
+}
+
+/// Marks a normal Contract as a *shadow* of a host [ClassBinding] module.
+/// The contract stays a real IL type (fields, constructors, bodies allowed)
+/// and the host is a fallback: members not found in IL dispatch to the host,
+/// and empty-bodied methods are emitted as native stubs that forward straight
+/// to the host. Inside a shadow contract, `host.Method(args)` calls the host
+/// binding directly, bypassing the IL-wins rule.
+Contract ShadowBinding: Attribute {
+    Target: string;
+}

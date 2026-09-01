@@ -6,7 +6,7 @@
     "src/Generics/Generics.ctproj",
     "src/Math/BasicOps.ctproj",
     "src/Math/Vectorization/VectorMath.ctproj",
-    "src/ObjektRT.Core/ObjektRT.Core.ctproj"
+    "src/ObjektRT.Core/contract.ctproj"
   ],
   "Namespace": "ObjektRT.std",
   "Output": "bin",

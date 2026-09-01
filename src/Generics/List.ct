@@ -12,16 +12,25 @@ Contract List<T> {
     }
 
     fn Get(index: int) -> T {
-        return this.items[index];
+        return this[index];
     }
 
     fn Set(index: int, value: T) {
-        this.items[index] = value;
+        this[index] = value;
+    }
+
+    this(index: int) -> T {
+        get {
+            return this.items[index];
+        }
+        set {
+            this.items[index] = value;
+        }
     }
 
     fn Print()
     {
-        for (var i = 0; i < this.Items.Count; i+=1)
+        for (var i = 0; i < this.items.Count; i+=1)
         {
             IO.Println(Convert.ToString(items[i]));
         }
