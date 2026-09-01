@@ -1,7 +1,7 @@
 {
   "Name": "ObjektRT.Core",
   "Type": "lib",
-  "Sources": ["**/*.ct"],
+  "Sources": ["Builder/Type.ct", "Bindings/TypeBinding.ct", "Bindings/DateTime.ct","Bindings/DateTime.ct","Builder/IRBuilder.ct","Bindings/AstNodes.ct"],
   "Namespace": "ObjektRT.Core",
   "Output": "bin",
   "Version": "0.1.0",

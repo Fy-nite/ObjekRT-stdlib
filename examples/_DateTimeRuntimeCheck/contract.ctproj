@@ -1,0 +1,17 @@
+{
+  "Name": "DateTimeRuntimeCheck",
+  "Type": "exe",
+  "Main": "Main.ct",
+  "Sources": [
+    "Main.ct",
+    "../../src/ObjektRT.Core/Bindings/DateTime.ct"
+  ],
+  "Namespace": "DateTimeCheck",
+  "Output": "bin",
+  "Version": "0.0.1",
+  "Author": "charlie-san",
+  "Description": "Compiles the real ObjektRT.Core sources together with a Main to verify the shadowed DateTime at runtime.",
+  "License": "MIT",
+  "Tags": ["test"],
+  "Dependencies": null
+}

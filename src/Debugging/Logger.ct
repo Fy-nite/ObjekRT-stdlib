@@ -1,0 +1,8 @@
+namespace ObjektRT.Std;
+
+Contract Logger<T> {
+    static Instance: Logger<T>;
+    let GetClassName: string = fn(typ: Type) -> {
+         
+    };
+}

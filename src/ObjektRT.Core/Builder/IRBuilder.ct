@@ -1,0 +1,430 @@
+import __builtin.std;
+import "AstNodes.ct";
+Contract IRBuilder {
+    public Module: ModuleNode;
+
+    constructor(moduleName: string) {
+        this.Module = new ModuleNode(moduleName);
+    }
+
+    fn Build() -> ModuleNode {
+        return this.Module;
+    }
+
+    fn Class(name: string) -> ClassBuilder {
+        let node = new ClassNode(name);
+        this.Module.Classes.Add(node);
+        return new ClassBuilder(this, node);
+    }
+
+    fn Interface(name: string) -> InterfaceBuilder {
+        let node = new InterfaceNode(name);
+        this.Module.Interfaces.Add(node);
+        return new InterfaceBuilder(this, node);
+    }
+
+    fn Struct(name: string) -> StructBuilder {
+        let node = new StructNode(name);
+        this.Module.Structs.Add(node);
+        return new StructBuilder(this, node);
+    }
+}
+
+Contract ClassBuilder {
+    public Owner: IRBuilder;
+    public Target: ClassNode;
+
+    constructor(owner: IRBuilder, target: ClassNode) {
+        this.Owner = owner;
+        this.Target = target;
+    }
+
+    fn Access(access: AccessModifier) -> ClassBuilder {
+        this.Target.Modifiers.Add(access);
+        return this;
+    }
+
+    fn Namespace(ns: string) -> ClassBuilder {
+        this.Target.Namespace = ns;
+        return this;
+    }
+
+    fn Extends(baseType: string) -> ClassBuilder {
+        this.Target.BaseType = baseType;
+        return this;
+    }
+
+    fn Implements(interfaces: string[]) -> ClassBuilder {
+        for (var i = 0; i < interfaces.Count; i += 1) {
+            this.Target.Interfaces.Add(interfaces[i]);
+        }
+        return this;
+    }
+
+    fn Abstract() -> ClassBuilder {
+        this.Target.IsAbstract = true;
+        return this;
+    }
+
+    fn Sealed() -> ClassBuilder {
+        this.Target.IsSealed = true;
+        return this;
+    }
+
+    fn Attribute(name: string, args: string[]) -> ClassBuilder {
+        let attr = new AttributeNode(name, args);
+        this.Target.Attributes.Add(attr);
+        return this;
+    }
+
+    fn Generic(params: string[]) -> ClassBuilder {
+        for (var i = 0; i < params.Count; i += 1) {
+            this.Target.GenericParameters.Add(new GenericParameterNode(params[i]));
+        }
+        return this;
+    }
+
+    fn Field(name: string, fieldType: TypeRef) -> FieldBuilder {
+        let field = new FieldNode(name, fieldType);
+        this.Target.Fields.Add(field);
+        return new FieldBuilder(this, field);
+    }
+
+    fn Method(name: string, returnType: TypeRef) -> MethodBuilder {
+        let method = new MethodNode(name);
+        method.ReturnType = returnType;
+        this.Target.Methods.Add(method);
+        return new MethodBuilder(this, method);
+    }
+
+    fn Constructor() -> MethodBuilder {
+        let ctor = new ConstructorNode();
+        this.Target.Constructors.Add(ctor);
+        return new MethodBuilder(this, ctor);
+    }
+
+    fn EndClass() -> IRBuilder {
+        return this.Owner;
+    }
+}
+
+Contract InterfaceBuilder {
+    public Owner: IRBuilder;
+    public Target: InterfaceNode;
+
+    constructor(owner: IRBuilder, target: InterfaceNode) {
+        this.Owner = owner;
+        this.Target = target;
+    }
+
+    fn Access(access: AccessModifier) -> InterfaceBuilder {
+        this.Target.Access = access;
+        return this;
+    }
+
+    fn Namespace(ns: string) -> InterfaceBuilder {
+        this.Target.Namespace = ns;
+        return this;
+    }
+
+    fn Method(name: string, returnType: TypeRef) -> InterfaceBuilder {
+        let sig = new MethodSignature(name);
+        sig.ReturnType = returnType;
+        this.Target.Methods.Add(sig);
+        return this;
+    }
+
+    fn EndInterface() -> IRBuilder {
+        return this.Owner;
+    }
+}
+
+Contract StructBuilder {
+    public Owner: IRBuilder;
+    public Target: StructNode;
+
+    constructor(owner: IRBuilder, target: StructNode) {
+        this.Owner = owner;
+        this.Target = target;
+    }
+
+    fn Access(access: AccessModifier) -> StructBuilder {
+        this.Target.Access = access;
+        return this;
+    }
+
+    fn Field(name: string, fieldType: TypeRef) -> StructBuilder {
+        this.Target.Fields.Add(new FieldNode(name, fieldType));
+        return this;
+    }
+
+    fn Attribute(name: string, args: string[]) -> StructBuilder {
+        let attr = new AttributeNode(name, args);
+        this.Target.Attributes.Add(attr);
+        return this;
+    }
+
+    fn EndStruct() -> IRBuilder {
+        return this.Owner;
+    }
+}
+
+Contract FieldBuilder {
+    public Owner: ClassBuilder;
+    public Target: FieldNode;
+
+    constructor(owner: ClassBuilder, target: FieldNode) {
+        this.Owner = owner;
+        this.Target = target;
+    }
+
+    fn Access(access: AccessModifier) -> FieldBuilder {
+        this.Target.Access = access;
+        return this;
+    }
+
+    fn Static() -> FieldBuilder {
+        this.Target.IsStatic = true;
+        return this;
+    }
+
+    fn ReadOnly() -> FieldBuilder {
+        this.Target.IsReadOnly = true;
+        return this;
+    }
+
+    fn EndField() -> ClassBuilder {
+        return this.Owner;
+    }
+}
+
+Contract MethodBuilder {
+    public Owner: ClassBuilder;
+    public Method: MethodNode;
+    public Ctor: ConstructorNode;
+    public IsCtor: bool;
+
+    constructor(owner: ClassBuilder, method: MethodNode) {
+        this.Owner = owner;
+        this.Method = method;
+        this.Ctor = new ConstructorNode();
+        this.IsCtor = false;
+    }
+
+    constructor(owner: ClassBuilder, ctor: ConstructorNode) {
+        this.Owner = owner;
+        this.Method = new MethodNode("__ctor");
+        this.Ctor = ctor;
+        this.IsCtor = true;
+    }
+
+    fn Access(access: AccessModifier) -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.Access = access;
+        }
+        return this;
+    }
+
+    fn Static() -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.IsStatic = true;
+        }
+        return this;
+    }
+
+    fn Virtual() -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.IsVirtual = true;
+        }
+        return this;
+    }
+
+    fn Override() -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.IsOverride = true;
+        }
+        return this;
+    }
+
+    fn Abstract() -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.IsAbstract = true;
+        }
+        return this;
+    }
+
+    fn Attribute(name: string, args: string[]) -> MethodBuilder {
+        let attr = new AttributeNode(name, args);
+        if (this.IsCtor) {
+            this.Ctor.Attributes.Add(attr);
+        } else {
+            this.Method.Attributes.Add(attr);
+        }
+        return this;
+    }
+
+    fn Parameter(name: string, paramType: TypeRef) -> MethodBuilder {
+        let p = new ParameterNode(name, paramType);
+        if (this.IsCtor) {
+            this.Ctor.Parameters.Add(p);
+        } else {
+            this.Method.Parameters.Add(p);
+        }
+        return this;
+    }
+
+    fn Local(name: string, localType: TypeRef) -> MethodBuilder {
+        if (!this.IsCtor) {
+            this.Method.Locals.Add(new LocalDeclarationStatement(name, localType));
+        }
+        return this;
+    }
+
+    fn Body() -> InstructionBuilder {
+        var block: BlockStatement;
+        if (this.IsCtor) {
+            block = this.Ctor.Body;
+        } else {
+            block = this.Method.Body;
+        }
+        return new InstructionBuilder(this, block.Statements);
+    }
+
+    fn EndMethod() -> ClassBuilder {
+        return this.Owner;
+    }
+}
+
+Contract InstructionBuilder {
+    public Owner: MethodBuilder;
+    public Statements: List<Statement>;
+
+    constructor(owner: MethodBuilder, statements: List<Statement>) {
+        this.Owner = owner;
+        this.Statements = statements;
+    }
+
+    fn Emit(opCode: string, operand: string) -> InstructionBuilder {
+        let instr = new SimpleInstruction(opCode, operand);
+        this.Statements.Add(new InstructionStatement(instr));
+        return this;
+    }
+
+    fn Emit0(opCode: string) -> InstructionBuilder {
+        let instr = new SimpleInstruction(opCode);
+        this.Statements.Add(new InstructionStatement(instr));
+        return this;
+    }
+
+    fn Ldarg(index: int) -> InstructionBuilder {
+        return this.Emit("Ldarg", Convert.ToString(index));
+    }
+
+    fn Starg(index: int) -> InstructionBuilder {
+        return this.Emit("Starg", Convert.ToString(index));
+    }
+
+    fn Ldloc(name: string) -> InstructionBuilder {
+        return this.Emit("Ldloc", name);
+    }
+
+    fn Stloc(name: string) -> InstructionBuilder {
+        return this.Emit("Stloc", name);
+    }
+
+    fn LdcI4(value: int) -> InstructionBuilder {
+        return this.Emit("LdcI4", Convert.ToString(value));
+    }
+
+    fn Ldstr(value: string) -> InstructionBuilder {
+        return this.Emit("Ldstr", value);
+    }
+
+    fn Ldnull() -> InstructionBuilder {
+        return this.Emit0("Ldnull");
+    }
+
+    fn Add() -> InstructionBuilder {
+        return this.Emit0("Add");
+    }
+
+    fn Sub() -> InstructionBuilder {
+        return this.Emit0("Sub");
+    }
+
+    fn Mul() -> InstructionBuilder {
+        return this.Emit0("Mul");
+    }
+
+    fn Div() -> InstructionBuilder {
+        return this.Emit0("Div");
+    }
+
+    fn Rem() -> InstructionBuilder {
+        return this.Emit0("Rem");
+    }
+
+    fn Neg() -> InstructionBuilder {
+        return this.Emit0("Neg");
+    }
+
+    fn And() -> InstructionBuilder {
+        return this.Emit0("And");
+    }
+
+    fn Or() -> InstructionBuilder {
+        return this.Emit0("Or");
+    }
+
+    fn Xor() -> InstructionBuilder {
+        return this.Emit0("Xor");
+    }
+
+    fn Not() -> InstructionBuilder {
+        return this.Emit0("Not");
+    }
+
+    fn Ceq() -> InstructionBuilder {
+        return this.Emit0("Ceq");
+    }
+
+    fn Cgt() -> InstructionBuilder {
+        return this.Emit0("Cgt");
+    }
+
+    fn Clt() -> InstructionBuilder {
+        return this.Emit0("Clt");
+    }
+
+    fn Dup() -> InstructionBuilder {
+        return this.Emit0("Dup");
+    }
+
+    fn Pop() -> InstructionBuilder {
+        return this.Emit0("Pop");
+    }
+
+    fn Ret() -> InstructionBuilder {
+        return this.Emit0("Ret");
+    }
+
+    fn Ldelem() -> InstructionBuilder {
+        return this.Emit0("Ldelem");
+    }
+
+    fn Stelem() -> InstructionBuilder {
+        return this.Emit0("Stelem");
+    }
+
+    fn Ldlen() -> InstructionBuilder {
+        return this.Emit0("Ldlen");
+    }
+
+    fn Newarr(elementType: TypeRef) -> InstructionBuilder {
+        return this.Emit("Newarr", elementType.Name);
+    }
+
+    fn EndBody() -> MethodBuilder {
+        return this.Owner;
+    }
+}

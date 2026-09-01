@@ -1,5 +1,5 @@
 {
-  "Name": "Debugging",
+  "Name": "ObjektRT.std.Debugging",
   "Type": "lib",
   "Sources": ["*.ct"],
   "Namespace": "ObjektRT.Std",

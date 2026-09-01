@@ -1,0 +1,7 @@
+import "../../Generics/list.ct";
+
+/// Generic Stream class
+Contract Stream<T> {
+    Data: List<T>;
+    
+}
