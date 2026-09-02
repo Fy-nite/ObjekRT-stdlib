@@ -1,0 +1,43 @@
+import __builtin.std;
+import ObjektRT.std.Memory;
+
+/// Example: the C-style deref and address-of operators on a ManagedPtr.
+///
+/// `*m`   — dereference: the current element. `*m == m[0]`.
+///          Use it as a value (`x = *m`) or as a target (`*m = v`).
+/// `&m`   — address-of: the block's raw native address, as a long.
+///          Equivalent to `m.Address()`.
+fn DerefAndAddressOf() {
+    var m = new ManagedPtr<int>(4);
+
+    // *m writes element 0 (just like *p = v writes *p).
+    *m = 7;
+    IO.Println("*m after *m = 7     => " + Convert.ToString(*m));   // 7
+
+    // *m reads back element 0 — identical to m[0].
+    IO.Println("m[0] is the same    => " + Convert.ToString(m[0])); // 7
+
+    // Address-of gives you the native address for interop. Non-zero because
+    // the block is actually allocated.
+    var addr: long = &m;
+    IO.Println("&m resolves to a long address > 0 => " + Convert.ToStringB(addr > 0));
+
+    // Numeric identity: *m and m[0] are the same storage.
+    m[1] = 100;
+    *m = m[1];              // copy element 1 into element 0
+    IO.Println("after *m = m[1], *m => " + Convert.ToString(*m));   // 100
+
+    m.Free();
+
+    // After free the block is reclaimed; calling _any_ access throws.
+    // m[0];   // throws: block was freed
+}
+
+/// Example: passing the raw address to a native boundary.
+/// (Illustrative — assumes a helper that takes a long address.)
+fn AddressForInterop() -> long {
+    var m = new ManagedPtr<int>(8);
+    var raw = &m;
+    m.Free();
+    return raw;  // a live address worth handing to a CLR Span<float>-style bridge
+}

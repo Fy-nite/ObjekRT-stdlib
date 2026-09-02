@@ -1,0 +1,20 @@
+{
+  "Name": "Pointers",
+  "Type": "exe",
+  "Main": "Main.ct",
+  "Sources": [
+    "Main.ct",
+    "IndexedAccess.ct",
+    "DerefAndAddressof.ct",
+    "IlBlock.ct",
+    "../../src/Memory/ManagedPtr.ct"
+  ],
+  "Namespace": "PointersExample",
+  "Output": "bin",
+  "Version": "0.1.0",
+  "Author": "charlie-san",
+  "Description": "Walkthrough examples for Contract's managed pointers: the ManagedPtr<T> contract, C-style indexed access (m[i]), deref (*m) and address-of (&m), and raw IL {} pointer opcodes.",
+  "License": "MIT",
+  "Tags": ["example", "memory", "pointers"],
+  "Dependencies": null
+}

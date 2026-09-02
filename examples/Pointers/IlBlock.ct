@@ -1,0 +1,66 @@
+import __builtin.std;
+
+/// Example: inline `IL { ... }` blocks — the escape hatch to raw ObjektRT
+/// opcodes. Every statement is one instruction (mnemonic + optional operand);
+/// the block runs in place and can use the enclosing function's locals by name.
+///
+/// Pointer opcodes available inside a block:
+///   ptr.alloc   — pop an element count then an element size, allocate a
+///                 bound-checked block, push its handle
+///   ptr.len     — pop a block handle, push its element count
+///   ptr.addr    — pop a block handle, push its native address
+///   ldptr.*     — pop a block handle, push the value at element 0 (typed)
+///   stptr.*     — pop a value and a block handle, store at element 0 (typed)
+///   ptr.free    — pop a block handle, reclaim it
+
+/// Constant arithmetic via raw IL — no globals, no allocations.
+fn IlAdd() -> int {
+    var r = 0;
+    IL {
+        ldc.i4 20
+        ldc.i4 22
+        add
+        stloc r
+    }
+    return r;                       // 42
+}
+
+/// Raw pointer lifecycle: allocate a 3-element block, read its length, free it.
+fn IlPtrLen() -> int {
+    var n = 0;
+    var h: object = null;
+    IL {
+        ldc.i4 3        // count
+        ldc.i4 4        // element size (bytes)
+        ptr.alloc       // -> h
+        stloc h
+        ldloc h
+        ptr.len         // -> element count
+        stloc n
+        ldloc h
+        ptr.free
+    }
+    return n;                       // 3
+}
+
+/// Raw deref: write a value into element 0 of a freshly allocated block, read
+/// it back, then free. Mirrors what *m / &m hide at the language level.
+fn IlRawDeref() -> int {
+    var v = 0;
+    var h: object = null;
+    IL {
+        ldc.i4 1        // count
+        ldc.i4 4        // element size
+        ptr.alloc       // -> handle
+        stloc h
+        ldloc h         // address for stptr.i4
+        ldc.i4 99       // value
+        stptr.i4        // store 99 at element 0
+        ldloc h
+        ldptr.i4        // load element 0 -> 99
+        stloc v
+        ldloc h
+        ptr.free
+    }
+    return v;                       // 99
+}

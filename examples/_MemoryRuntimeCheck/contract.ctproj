@@ -1,0 +1,17 @@
+{
+  "Name": "MemoryRuntimeCheck",
+  "Type": "exe",
+  "Main": "Main.ct",
+  "Sources": [
+    "Main.ct",
+    "../../src/Memory/ManagedPtr.ct"
+  ],
+  "Namespace": "MemoryCheck",
+  "Output": "bin",
+  "Version": "0.0.1",
+  "Author": "charlie-san",
+  "Description": "Compiles the real ManagedPtr source together with a Main to verify shadowed memory pointers + the inline IL {} block at runtime.",
+  "License": "MIT",
+  "Tags": ["test"],
+  "Dependencies": null
+}

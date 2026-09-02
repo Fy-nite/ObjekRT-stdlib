@@ -1,0 +1,16 @@
+{
+  "Name": "ObjektRT.std.Memory",
+  "Type": "lib",
+  "Sources": ["ManagedPtr.ct"],
+  "Namespace": "ObjektRT.std",
+  "Output": "bin",
+  "Version": "0.1.0",
+  "Author": "charlie-san",
+  "Description": "explicit managed memory: ManagedPtr<T> over a bound-checked native buffer (PtrBlock/PtrHost)",
+  "License": "MIT",
+  "Tags": [
+    "library",
+    "ObjektRT"
+  ],
+  "Dependencies": null
+}

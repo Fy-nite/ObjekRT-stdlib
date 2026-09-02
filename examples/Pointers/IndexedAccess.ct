@@ -1,0 +1,33 @@
+import __builtin.std;
+import ObjektRT.std.Memory;
+
+/// Example: indexed element access through `m[i]`.
+///
+/// `ManagedPtr<T>` declares a contract indexer, so a buffer reads and writes
+/// with the same `m[i]` syntax you use for arrays. All of these are
+/// bounds-checked: reading or writing past the end throws at runtime.
+fn BasicBuffer() {
+    var m = new ManagedPtr<int>(4);
+
+    // Write through the indexer setter.
+    m[0] = 10;
+    m[1] = 20;
+    m[2] = 30;
+    m[3] = 40;
+
+    IO.Print("read m[0] m[1] m[2] m[3] => ");
+    IO.Print(Convert.ToString(m[0]));
+    IO.Print(" " + Convert.ToString(m[1]));
+    IO.Print(" " + Convert.ToString(m[2]));
+    IO.Println(" " + Convert.ToString(m[3]));       // 10 20 30 40
+
+    // Compound assignment: read-modify-write through both accessors.
+    m[2] += 5;
+    IO.Println("after m[2] += 5, m[2] => " + Convert.ToString(m[2]));  // 35
+
+    // Bounds are enforced by the host buffer.
+    // m[4] = 1;   // throws: index out of range
+    // m[-1]      // throws: index out of range
+
+    m.Free();
+}
