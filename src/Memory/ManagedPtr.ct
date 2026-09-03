@@ -1,0 +1,85 @@
+namespace ObjektRT.std.Memory;
+import __builtin.std;
+
+/// A managed pointer to an explicit, bound-checked block of typed elements,
+/// behind an opaque native handle plus a small `T[]` mirror that carries the
+/// element type across the host boundary.
+///
+///   var m = new ManagedPtr<int>(4);      // 4 int32 (16 bytes)
+///   m[0] = 42;
+///   IO.Println(m[0]);                    // 42
+///   m.Free();
+///
+///   var f = new ManagedPtr<float>(8);    // 8 float32 (32 bytes)
+///   f[0] = 0.5;
+///   IO.Println(f[0]);                    // 0.5
+///
+/// Backed by a host binding (`[ClassBinding("ManagedPtr")]`, see
+/// ObjektRT.Stdlib.Memory.PtrHost): the contract auto-shadows the binding by
+/// name, and every operation delegates straight to the host via `host.`.
+/// Storage is a native region whose lifetime is manual — call <see cref="Free"/>
+/// to release it. Reads and writes are bounds-checked.
+///
+/// Element size and kind (int vs long vs float vs double) are derived from
+/// the element CLR type of the `T[]` mirror when the block is allocated, so
+/// `ManagedPtr&lt;int&gt;`, `ManagedPtr&lt;long&gt;`, `ManagedPtr&lt;float&gt;`
+/// and `ManagedPtr&lt;double&gt;` all work with the correct width and
+/// integer/float semantics. Supported element types: `int`, `uint`, `long`,
+/// `ulong`, `byte`, `short`, `float`, `double`, `bool`.
+Contract ManagedPtr<T> {
+    // Opaque handle to the host's native buffer.
+    private handle: object;
+    private count: int;
+
+    /// Allocates `length` elements of type `T`, zeroed.
+    constructor(length: int) {
+        // The literal "T" is the generic type parameter's name; generic
+        // materialization rewrites it to the concrete wire name (int32,
+        // int64, float32, float64, ...) so the host knows the element
+        // size and int/float kind.
+        this.count = length;
+        this.handle = host.Alloc(length, "T");
+    }
+
+    /// Reads the `T` value at `index` (bounds-checked).
+    fn Read(index: int) -> T {
+        var v: object = host.Read(this.handle, index);
+        return v as T;
+    }
+
+    /// Writes `value` as `T` at `index` (bounds-checked).
+    fn Write(index: int, value: T) {
+        host.Write(this.handle, index, value);
+    }
+
+    /// C-style indexed element access. `m[i]` reads the `T` at `i`;
+    /// `m[i] = v` (and `m[i] += v`) writes through the setter. Bounds-checked.
+    this(index: int) -> T {
+        get {
+            return this.Read(index);
+        }
+        set {
+            this.Write(index, value);
+        }
+    }
+
+    /// Number of elements in the block.
+    fn Count() -> int {
+        return this.count;
+    }
+
+    /// True when the buffer has been freed.
+    fn IsFreed() -> bool {
+        return host.IsFreed(this.handle);
+    }
+
+    /// Raw address of the start of the block, as an 8-byte integer.
+    fn Address() -> long {
+        return host.Address(this.handle);
+    }
+
+    /// Releases the underlying native memory. The pointer is unusable after this.
+    fn Free() {
+        host.Free(this.handle);
+    }
+}

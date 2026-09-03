@@ -1,8 +1,9 @@
 import "bin/ObjektRT.Core.orbt";
 
-Contract Program: Type {
+/// Demo class to test Stdlib stuff. don't worry people of the documentation readers.
+Contract Program {
     static fn Main() {
-    
+        
     }
 
 }

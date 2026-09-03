@@ -531,6 +531,22 @@ body {
       <li><a href="#-Program" data-kind="contract"><span class="kind-dot"></span>Program</a></li>
     <li class="nav-section">examples._DateTimeRuntimeCheck</li>
       <li><a href="#-Program" data-kind="contract"><span class="kind-dot"></span>Program</a></li>
+    <li class="nav-section">examples._MemoryRuntimeCheck</li>
+      <li><a href="#-IlAdd" data-kind="function"><span class="kind-dot"></span>IlAdd</a></li>
+      <li><a href="#-IlAdd" data-kind="function"><span class="kind-dot"></span>IlAdd</a></li>
+      <li><a href="#-IlPtrLen" data-kind="function"><span class="kind-dot"></span>IlPtrLen</a></li>
+      <li><a href="#-IlPtrLen" data-kind="function"><span class="kind-dot"></span>IlPtrLen</a></li>
+      <li><a href="#-Program" data-kind="contract"><span class="kind-dot"></span>Program</a></li>
+      <li><a href="#-Program" data-kind="contract"><span class="kind-dot"></span>Program</a></li>
+    <li class="nav-section">examples.Pointers</li>
+      <li><a href="#-AddressForInterop" data-kind="function"><span class="kind-dot"></span>AddressForInterop</a></li>
+      <li><a href="#-BasicBuffer" data-kind="function"><span class="kind-dot"></span>BasicBuffer</a></li>
+      <li><a href="#-DerefAndAddressOf" data-kind="function"><span class="kind-dot"></span>DerefAndAddressOf</a></li>
+      <li><a href="#-IlAdd" data-kind="function"><span class="kind-dot"></span>IlAdd</a></li>
+      <li><a href="#-IlPtrLen" data-kind="function"><span class="kind-dot"></span>IlPtrLen</a></li>
+      <li><a href="#-IlRawDeref" data-kind="function"><span class="kind-dot"></span>IlRawDeref</a></li>
+      <li><a href="#-LifetimeAndMetadata" data-kind="function"><span class="kind-dot"></span>LifetimeAndMetadata</a></li>
+      <li><a href="#-Program" data-kind="contract"><span class="kind-dot"></span>Program</a></li>
     <li class="nav-section">ObjektRT.Builtin.Attributes</li>
       <li><a href="#-Attribute" data-kind="contract"><span class="kind-dot"></span>Attribute</a></li>
       <li><a href="#-ClrImport" data-kind="contract"><span class="kind-dot"></span>ClrImport</a></li>
@@ -595,6 +611,8 @@ body {
       <li><a href="#-HashMap" data-kind="contract"><span class="kind-dot"></span>HashMap</a></li>
       <li><a href="#-List" data-kind="contract"><span class="kind-dot"></span>List</a></li>
       <li><a href="#-option" data-kind="type"><span class="kind-dot"></span>option</a></li>
+    <li class="nav-section">ObjektRT.std.Memory</li>
+      <li><a href="#-ManagedPtr" data-kind="contract"><span class="kind-dot"></span>ManagedPtr</a></li>
     <li class="nav-section">std.Generics</li>
       <li><a href="#-Result" data-kind="type"><span class="kind-dot"></span>Result</a></li>
   </ul>
@@ -668,6 +686,196 @@ body {
 <span class="mod">public</span>      </span>
     </div>
     <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Program</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(1)</span></h4>
+  <article class="decl" id="-Main" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Main</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Main</span>()</code></pre>
+  </article>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">examples._MemoryRuntimeCheck</h2>
+  <article class="decl" id="-IlAdd" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlAdd</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlAdd</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Demonstrates the inline `IL { ... }` block: emits raw VM instructions</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IlAdd" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlAdd</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlAdd</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Demonstrates the inline `IL { ... }` block: emits raw VM instructions</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IlPtrLen" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlPtrLen</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlPtrLen</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Demonstrates the raw pointer opcodes (`ptr.alloc`, `ptr.len`, `ptr.free`)</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IlPtrLen" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlPtrLen</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlPtrLen</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Demonstrates the raw pointer opcodes (`ptr.alloc`, `ptr.len`, `ptr.free`)</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Program" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">Program</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Program</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(1)</span></h4>
+  <article class="decl" id="-Main" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Main</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Main</span>()</code></pre>
+  </article>
+    </div>
+  </article>
+  <article class="decl" id="-Program" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">Program</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Program</span></code></pre>
+    <div class="members">
+      <h4>Members <span class="member-count">(1)</span></h4>
+  <article class="decl" id="-Main" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Main</h3>
+      <span class="modifiers">
+<span class="mod">static</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">static</span> <span class="sig-kw">fn</span> <span class="sig-name">Main</span>()</code></pre>
+  </article>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">examples.Pointers</h2>
+  <article class="decl" id="-AddressForInterop" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">AddressForInterop</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">AddressForInterop</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">long</span></code></pre>
+    <p class="summary">Example: passing the raw address to a native boundary.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">long</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-BasicBuffer" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">BasicBuffer</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">BasicBuffer</span>()</code></pre>
+    <p class="summary">Example: indexed element access through `m[i]`.</p>
+  </article>
+  <article class="decl" id="-DerefAndAddressOf" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">DerefAndAddressOf</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">DerefAndAddressOf</span>()</code></pre>
+    <p class="summary">Example: the C-style deref and address-of operators on a ManagedPtr.</p>
+  </article>
+  <article class="decl" id="-IlAdd" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlAdd</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlAdd</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Constant arithmetic via raw IL — no globals, no allocations.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IlPtrLen" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlPtrLen</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlPtrLen</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Raw pointer lifecycle: allocate a 3-element block, read its length, free it.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IlRawDeref" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IlRawDeref</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IlRawDeref</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Raw deref: write a value into element 0 of a freshly allocated block, read</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-LifetimeAndMetadata" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">LifetimeAndMetadata</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">LifetimeAndMetadata</span>()</code></pre>
+    <p class="summary">Lifecycle: allocate, write, free. Count/IsFreed track the block.</p>
+  </article>
+  <article class="decl" id="-Program" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">Program</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Program</span></code></pre>
+    <p class="summary">======================================================================</p>
     <div class="members">
       <h4>Members <span class="member-count">(1)</span></h4>
   <article class="decl" id="-Main" data-kind="function">
@@ -7053,9 +7261,9 @@ body {
       <h3 class="decl-name">Program</h3>
       <span class="modifiers">
 <span class="mod">public</span>      </span>
-      <span class="extends">: Type</span>
     </div>
     <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">Program</span></code></pre>
+    <p class="summary">Demo class to test Stdlib stuff. don&#39;t worry people of the documentation readers.</p>
     <div class="members">
       <h4>Members <span class="member-count">(1)</span></h4>
   <article class="decl" id="-Main" data-kind="function">
@@ -7726,6 +7934,216 @@ body {
         <span class="variant-chip">Value</span>
         <span class="variant-chip">None</span>
       </div>
+    </div>
+  </article>
+  </section>
+  <section class="ns-section">
+    <h2 class="namespace">ObjektRT.std.Memory</h2>
+  <article class="decl" id="-ManagedPtr" data-kind="contract">
+    <div class="decl-header">
+      <span class="kind-badge contract">contract</span>
+      <h3 class="decl-name">ManagedPtr</h3>
+      <span class="modifiers">
+<span class="mod">public</span>      </span>
+      <span class="type-params">&lt;T&gt;</span>
+    </div>
+    <pre class="signature"><code><span class="sig-mod">public</span> <span class="sig-kw">Contract</span> <span class="sig-name">ManagedPtr</span><span class="sig-type-params">&lt;<span class="sig-type">T</span>&gt;</span></code></pre>
+    <p class="summary">A managed pointer to an explicit, bound-checked block of typed elements,</p>
+    <div class="members">
+      <h4>Members <span class="member-count">(11)</span></h4>
+  <article class="decl" id="-__idx_get_0" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">__idx_get_0</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">__idx_get_0</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">T</span></code></pre>
+    <p class="summary">C-style indexed element access. `m[i]` reads the `T` at `i`;</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">T</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-__idx_set_0" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">__idx_set_0</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">__idx_set_0</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>, <span class="sig-pname">value</span>: <span class="sig-type">T</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">void</span></code></pre>
+    <p class="summary">C-style indexed element access. `m[i]` reads the `T` at `i`;</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>value</code></td>
+            <td class="param-type"><code>T</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">void</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Address" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Address</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Address</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">long</span></code></pre>
+    <p class="summary">Raw address of the start of the block, as an 8-byte integer.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">long</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-constructor" data-kind="constructor">
+    <div class="decl-header">
+      <span class="kind-badge constructor">constructor</span>
+      <h3 class="decl-name">constructor</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">constructor</span>(<span class="sig-pname">length</span>: <span class="sig-type">int</span>)</code></pre>
+    <p class="summary">Allocates `length` elements of type `T`, zeroed.</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>length</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+  <article class="decl" id="-count" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">count</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">var</span> <span class="sig-name">count</span>: <span class="sig-type">int</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Count" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Count</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Count</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">int</span></code></pre>
+    <p class="summary">Number of elements in the block.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">int</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Free" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Free</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Free</span>()</code></pre>
+    <p class="summary">Releases the underlying native memory. The pointer is unusable after this.</p>
+  </article>
+  <article class="decl" id="-handle" data-kind="field">
+    <div class="decl-header">
+      <span class="kind-badge field">field</span>
+      <h3 class="decl-name">handle</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">var</span> <span class="sig-name">handle</span>: <span class="sig-type">object</span></code></pre>
+    <div class="returns">
+      <h4>Type</h4>
+      <p><code class="ret-type">object</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-IsFreed" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">IsFreed</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">IsFreed</span>() <span class="sig-arrow">-&gt;</span> <span class="sig-type">bool</span></code></pre>
+    <p class="summary">True when the buffer has been freed.</p>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">bool</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Read" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Read</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Read</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>) <span class="sig-arrow">-&gt;</span> <span class="sig-type">T</span></code></pre>
+    <p class="summary">Reads the `T` value at `index` (bounds-checked).</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="returns">
+      <h4>Returns</h4>
+      <p><code class="ret-type">T</code> </p>
+    </div>
+  </article>
+  <article class="decl" id="-Write" data-kind="function">
+    <div class="decl-header">
+      <span class="kind-badge function">function</span>
+      <h3 class="decl-name">Write</h3>
+    </div>
+    <pre class="signature"><code><span class="sig-kw">fn</span> <span class="sig-name">Write</span>(<span class="sig-pname">index</span>: <span class="sig-type">int</span>, <span class="sig-pname">value</span>: <span class="sig-type">T</span>)</code></pre>
+    <p class="summary">Writes `value` as `T` at `index` (bounds-checked).</p>
+    <div class="params">
+      <h4>Parameters</h4>
+      <table class="param-table">
+        <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="param-name"><code>index</code></td>
+            <td class="param-type"><code>int</code></td>
+            <td class="param-desc"></td>
+          </tr>
+          <tr>
+            <td class="param-name"><code>value</code></td>
+            <td class="param-type"><code>T</code></td>
+            <td class="param-desc"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
     </div>
   </article>
   </section>

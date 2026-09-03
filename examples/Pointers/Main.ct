@@ -1,0 +1,56 @@
+import __builtin.std;
+import ObjektRT.std.Memory;
+import "../../src/Memory/ManagedPtr.ct";
+
+/// ======================================================================
+///  Contract managed pointers — worked examples.
+///
+///  Two layers share one runtime primitive (a pinned, bound-checked block):
+///    • ManagedPtr<T>  — the type-safe generic contract (Memory library)
+///    • IL { ... }     — raw ObjektRT pointer opcodes (the escape hatch)
+///
+///  Element access on a ManagedPtr is C-style:
+///    m[i]   indexed read/write/compound (via a contract indexer)
+///    *m     deref — the current element, *m == m[0]
+///    &m     address-of — the block's native address, a long
+///
+///  Lifetime is manual: allocate with the constructor, reclaim with Free().
+///  There is no mark-and-sweep GC yet.
+/// ======================================================================
+
+Contract Program {
+    static fn Main() {
+        IO.Println("== ManagedPointers examples ==\n");
+
+        IO.Println("-- indexed access (m[i]) --");
+        BasicBuffer();
+
+        IO.Println("\n-- deref (*m) & address-of (&m) --");
+        DerefAndAddressOf();
+
+        IO.Println("\n-- lifetime & metadata --");
+        LifetimeAndMetadata();
+
+        IO.Println("\n-- inline IL { ... } blocks --");
+        IO.Println("IlAdd()          => " + Convert.ToString(IlAdd()));      // 42
+        IO.Println("IlPtrLen()       => " + Convert.ToString(IlPtrLen()));   // 3
+        IO.Println("IlRawDeref()     => " + Convert.ToString(IlRawDeref())); // 99
+    }
+}
+
+/// Lifecycle: allocate, write, free. Count/IsFreed track the block.
+fn LifetimeAndMetadata() {
+    var m = new ManagedPtr<int>(6);
+
+    IO.Println("Count()           => " + Convert.ToString(m.Count()));       // 6
+    IO.Println("IsFreed() before  => " + Convert.ToStringB(m.IsFreed()));     // false
+
+    // Raw address is a pointer-sized integer (long), non-zero once allocated.
+    IO.Println("Address() > 0     => " + Convert.ToStringB(m.Address() > 0)); // true
+
+    m.Free();
+    IO.Println("IsFreed() after   => " + Convert.ToStringB(m.IsFreed()));     // true
+
+    // Free is idempotent — calling it again is a safe no-op.
+    m.Free();
+}
