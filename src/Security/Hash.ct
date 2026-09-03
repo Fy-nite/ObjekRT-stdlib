@@ -1,0 +1,74 @@
+namespace ObjektRT.std;
+import __builtin.std;
+
+/// SHA-256 / SHA-512 hashing, pure `CLRImport` facades over
+/// `System.Security.Cryptography` + `System.Convert`, plus UTF-8 convenience
+/// entry points on top of the builtin `Convert.ToUTF8Bytes`. No host binding
+/// assembly is required.
+///
+/// Usage:
+///   var hex = Hash.SHA256Hex("abc");         // known 64-char lowercase hex
+///   var ok  = Hash.VerifySHA256("abc", hex); // constant-time verify
+///   var raw = Hash.SHA256Bytes("abc");       // byte[] digest
+Contract Hash {
+    /// SHA-256 of raw bytes.
+    static fn SHA256(data: byte[]) -> byte[] {
+        return Sha256.HashData(data);
+    }
+
+    /// SHA-512 of raw bytes.
+    static fn SHA512(data: byte[]) -> byte[] {
+        return Sha512.HashData(data);
+    }
+
+    /// SHA-256 of a UTF-8 string, as lowercase hex.
+    static fn SHA256Hex(s: string) -> string {
+        return HexText.ToHexString(Sha256.HashData(Convert.ToUTF8Bytes(s)));
+    }
+
+    /// SHA-512 of a UTF-8 string, as lowercase hex.
+    static fn SHA512Hex(s: string) -> string {
+        return HexText.ToHexString(Sha512.HashData(Convert.ToUTF8Bytes(s)));
+    }
+
+    /// SHA-256 of a UTF-8 string, as raw bytes.
+    static fn SHA256Bytes(s: string) -> byte[] {
+        return Sha256.HashData(Convert.ToUTF8Bytes(s));
+    }
+
+    /// SHA-512 of a UTF-8 string, as raw bytes.
+    static fn SHA512Bytes(s: string) -> byte[] {
+        return Sha512.HashData(Convert.ToUTF8Bytes(s));
+    }
+
+    /// True when the SHA-256 digest of `s` equals the supplied lowercase hex.
+    /// Compares decoded bytes in constant time.
+    static fn VerifySHA256(s: string, hex: string) -> bool {
+        var expected: byte[] = HexText.FromHexString(hex);
+        return TimingSafe.Equals(SHA256Bytes(s), expected);
+    }
+
+    /// True when the SHA-512 digest of `s` equals the supplied lowercase hex.
+    static fn VerifySHA512(s: string, hex: string) -> bool {
+        var expected: byte[] = HexText.FromHexString(hex);
+        return TimingSafe.Equals(SHA512Bytes(s), expected);
+    }
+}
+
+/// Low-level CLRImport facades for the SHA-2 family.
+<ClrImport("System.Security.Cryptography.SHA256")>
+Contract Sha256 {
+    static fn HashData(data: byte[]) -> byte[] { }
+}
+
+<ClrImport("System.Security.Cryptography.SHA512")>
+Contract Sha512 {
+    static fn HashData(data: byte[]) -> byte[] { }
+}
+
+/// Hex and base64 encoding across the boundary via System.Convert.
+<ClrImport("System.Convert")>
+Contract HexText {
+    static fn ToHexString(data: byte[]) -> string { }
+    static fn FromHexString(s: string) -> byte[] { }
+}

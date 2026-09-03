@@ -1,0 +1,38 @@
+import ObjektRT.std;
+import __builtin.std;
+
+/// Known-answer runtime check for the ObjektRT.std.Security library.
+/// Compiles the real Security sources together with this Main (see
+/// contract.ctproj) and verifies against published test vectors.
+Contract Program {
+    static fn Main() {
+        IO.Println("-- Security runtime check --");
+
+        // SHA-256("abc") -> known vector
+        var sha256abc: string = Hash.SHA256Hex("abc");
+        IO.Println("sha256(abc) = " + sha256abc);
+        IO.Println("sha256(abc) ok: " + Convert.ToStringB(sha256abc == "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD"));
+        IO.Println("verify(abc)  : " + Convert.ToStringB(Hash.VerifySHA256("abc", sha256abc)));
+        IO.Println("verify(bad)  : " + Convert.ToStringB(Hash.VerifySHA256("abc", "BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AE")));
+
+        // SHA-512("abc") -> known vector
+        var sha512abc: string = Hash.SHA512Hex("abc");
+        IO.Println("sha512(abc) ok: " + Convert.ToStringB(sha512abc == "DDAF35A193617ABACC417349AE20413112E6FA4E89A97EA20A9EEEE64B55D39A2192992A274FC1A836BA3C23A3FEEBBD454D4423643CE80E2A9AC94FA54CA49F"));
+
+        // HMAC-SHA256(key="key", msg="The quick brown fox...") -> known vector
+        var key: byte[] = Convert.ToUTF8Bytes("key");
+        var msg: byte[] = Convert.ToUTF8Bytes("The quick brown fox jumps over the lazy dog");
+        var hmac: string = Hmac.SHA256Hex(key, msg);
+        IO.Println("hmac = " + hmac);
+        IO.Println("hmac ok: " + Convert.ToStringB(hmac == "F7BC83F430538424B13298E6AA6FB143EF4D59A14946175997479DBC2D1A3CD8"));
+        IO.Println("hmac verify ok: " + Convert.ToStringB(Hmac.VerifySHA256(key, msg, hmac)));
+
+        // CSPRNG uniqueness + token shape (url-safe base64, no padding)
+        var a: byte[] = Random.Bytes(16);
+        var b: byte[] = Random.Bytes(16);
+        var tok: string = Random.Token(32);
+        IO.Println("token  = " + tok);
+        IO.Println("token len (no padding) ok: " + Convert.ToStringB(String.Length(tok) == 43));
+        IO.Println("random distinct: " + Convert.ToStringB(TimingSafe.Equals(a, b) == false));
+    }
+}

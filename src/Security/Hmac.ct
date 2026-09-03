@@ -1,0 +1,56 @@
+namespace ObjektRT.std;
+import __builtin.std;
+
+/// HMAC-SHA256 / HMAC-SHA512 message authentication, pure `CLRImport`
+/// facades over `System.Security.Cryptography.HMACSHA256/HMACSHA512`.
+///
+/// Usage:
+///   var mac  = Hmac.SHA256Hex(key, msg); // lowercase hex
+///   var ok   = Hmac.VerifySHA256(key, msg, mac);
+Contract Hmac {
+    /// HMAC-SHA256 of `data` under `key`, as raw bytes.
+    static fn SHA256(key: byte[], data: byte[]) -> byte[] {
+        return HmacSha256.HashData(key, data);
+    }
+
+    /// HMAC-SHA512 of `data` under `key`, as raw bytes.
+    static fn SHA512(key: byte[], data: byte[]) -> byte[] {
+        return HmacSha512.HashData(key, data);
+    }
+
+    /// HMAC-SHA256 of `data` under `key`, as lowercase hex.
+    static fn SHA256Hex(key: byte[], data: byte[]) -> string {
+        return HexText.ToHexString(HmacSha256.HashData(key, data));
+    }
+
+    /// HMAC-SHA512 of `data` under `key`, as lowercase hex.
+    static fn SHA512Hex(key: byte[], data: byte[]) -> string {
+        return HexText.ToHexString(HmacSha512.HashData(key, data));
+    }
+
+    /// True when the HMAC-SHA256 of `data` under `key` equals the supplied
+    /// lowercase hex. Compares decoded bytes in constant time.
+    static fn VerifySHA256(key: byte[], data: byte[], hex: string) -> bool {
+        var expected: byte[] = HexText.FromHexString(hex);
+        return TimingSafe.Equals(HmacSha256.HashData(key, data), expected);
+    }
+
+    /// True when the HMAC-SHA512 of `data` under `key` equals the supplied
+    /// lowercase hex.
+    static fn VerifySHA512(key: byte[], data: byte[], hex: string) -> bool {
+        var expected: byte[] = HexText.FromHexString(hex);
+        return TimingSafe.Equals(HmacSha512.HashData(key, data), expected);
+    }
+}
+
+/// Low-level CLRImport facades for the HMAC family. These use the static
+/// one-shot `HashData(key, source)` overloads (no disposable instance needed).
+<ClrImport("System.Security.Cryptography.HMACSHA256")>
+Contract HmacSha256 {
+    static fn HashData(key: byte[], data: byte[]) -> byte[] { }
+}
+
+<ClrImport("System.Security.Cryptography.HMACSHA512")>
+Contract HmacSha512 {
+    static fn HashData(key: byte[], data: byte[]) -> byte[] { }
+}

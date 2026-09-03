@@ -1,0 +1,28 @@
+namespace ObjektRT.std;
+import __builtin.std;
+
+/// Constant-time comparison for secret material. Never short-circuits on a
+/// byte mismatch, so the duration does not reveal how many leading bytes
+/// match. Equal-length, byte-for-byte identical buffers return true.
+///
+/// Note: `byte[]` reads marshal as `int` in the VM, and the language has no
+/// bitwise XOR, so mismatches are accumulated with subtraction + bitwise OR.
+/// A single nonzero difference leaves `diff != 0`, and we always scan the
+/// full shared length.
+Contract TimingSafe {
+    /// True when `a` and `b` match in constant time.
+    static fn Equals(a: byte[], b: byte[]) -> bool {
+        var la: int = Array.Length(a);
+        var lb: int = Array.Length(b);
+        // Length itself is public for digests; combine it into the diff.
+        var diff: int = la - lb;
+        var n: int = la;
+        if (lb < n) {
+            n = lb;
+        }
+        for (var i: int = 0; i < n; i = i + 1) {
+            diff = diff | (a[i] - b[i]);
+        }
+        return diff == 0;
+    }
+}

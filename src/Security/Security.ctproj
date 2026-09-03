@@ -1,0 +1,18 @@
+{
+  "Name": "ObjektRT.std.Security",
+  "Type": "lib",
+  "Sources": ["*.ct"],
+  "Namespace": "ObjektRT.std",
+  "Output": "bin",
+  "Version": "0.1.0",
+  "Author": "charlie-san, Finite",
+  "Description": "cryptography primitives for ObjektRT written in Contract: SHA-256/512, HMAC-SHA256, secure random (bytes/salt/nonce/base64url token), constant-time compare. Pure CLRImport facades over System.Security.Cryptography - no host assembly",
+  "License": "MIT",
+  "Tags": [
+    "library",
+    "ObjektRT",
+    "security",
+    "crypto"
+  ],
+  "Dependencies": null
+}

@@ -7,7 +7,8 @@
     "src/Math/BasicOps.ctproj",
     "src/Math/Vectorization/VectorMath.ctproj",
     "src/ObjektRT.Core/contract.ctproj",
-    "src/Memory/Memory.ctproj"
+    "src/Memory/Memory.ctproj",
+    "src/Security/Security.ctproj"
   ],
   "Namespace": "ObjektRT.std",
   "Output": "bin",

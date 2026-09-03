@@ -1,0 +1,55 @@
+namespace ObjektRT.std;
+import __builtin.std;
+
+/// Cryptographically secure random helpers, pure `CLRImport` facades over
+/// `System.Security.Cryptography.RandomNumberGenerator`. Use these for keys,
+/// salts, nonces and tokens; never `System.Random` for anything security
+/// sensitive.
+///
+/// Usage:
+///   var key   = Random.Bytes(32);
+///   var nonce = Random.Nonce(12);
+///   var token = Random.Token(32);         // url-safe base64, no padding
+Contract Random {
+    /// Cryptographically secure random bytes.
+    static fn Bytes(count: int) -> byte[] {
+        return Rng.GetBytes(count);
+    }
+
+    /// A random salt of the given byte length (bytes produced by the CSPRNG).
+    static fn Salt(byteCount: int) -> byte[] {
+        return Rng.GetBytes(byteCount);
+    }
+
+    /// A random nonce of the given byte length (bytes produced by the CSPRNG).
+    static fn Nonce(byteCount: int) -> byte[] {
+        return Rng.GetBytes(byteCount);
+    }
+
+    /// A URL-safe base64 (RFC 4648 section 5) token from `byteCount` random
+    /// bytes, with no `=` padding.
+    static fn Token(byteCount: int) -> string {
+        return ToBase64Url(Rng.GetBytes(byteCount));
+    }
+
+    /// Encodes raw bytes as URL-safe base64 without padding.
+    static fn ToBase64Url(data: byte[]) -> string {
+        var b64: string = B64Text.ToBase64String(data);
+        var swapped: string = String.Replace(String.Replace(b64, "+", "-"), "/", "_");
+        var n: int = Array.Length(data);
+        var pad: int = (3 - (n % 3)) % 3;
+        var total: int = String.Length(swapped);
+        return String.Substring(swapped, 0, total - pad);
+    }
+}
+
+/// Low-level CLRImport facades for the CSPRNG and base64 encoding.
+<ClrImport("System.Security.Cryptography.RandomNumberGenerator")>
+Contract Rng {
+    static fn GetBytes(count: int) -> byte[] { }
+}
+
+<ClrImport("System.Convert")>
+Contract B64Text {
+    static fn ToBase64String(data: byte[]) -> string { }
+}

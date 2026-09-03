@@ -1,0 +1,20 @@
+{
+  "Name": "SecurityRuntimeCheck",
+  "Type": "exe",
+  "Main": "Main.ct",
+  "Sources": [
+    "Main.ct",
+    "../../src/Security/Hash.ct",
+    "../../src/Security/Hmac.ct",
+    "../../src/Security/Random.ct",
+    "../../src/Security/TimingSafe.ct"
+  ],
+  "Namespace": "SecurityCheck",
+  "Output": "bin",
+  "Version": "0.0.1",
+  "Author": "charlie-san",
+  "Description": "Compiles the real ObjektRT.std.Security sources together with a Main to verify SHA-256/512, HMAC-SHA256, CSPRNG tokens and constant-time compare at runtime against known test vectors.",
+  "License": "MIT",
+  "Tags": ["test"],
+  "Dependencies": null
+}
